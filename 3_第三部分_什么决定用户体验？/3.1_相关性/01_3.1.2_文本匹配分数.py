@@ -479,3 +479,140 @@ query = "sample document"
 tps = TermProximityScore()
 scores = tps.fit_transform(documents, query)
 print("Term Proximity Scores:", scores)
+
+
+
+import numpy as np
+from typing import List, Dict, Tuple
+from collections import defaultdict
+import math
+
+class TextMatching:
+    """文本匹配类，用于计算文本匹配分数，如TF-IDF、BM25和词距分数。
+
+    Attributes:
+        corpus: 文档集合，每个文档是一个字符串。
+        tf: 词频字典，存储每个词在每个文档中的词频。
+        df: 文档频率字典，存储每个词在多少个文档中出现过。
+        idf: 逆文档频率字典，存储每个词的逆文档频率。
+        avgdl: 平均文档长度。
+    """
+
+    def __init__(self, corpus: List[str]):
+        """初始化TextMatching类，计算文档频率和逆文档频率。
+
+        Args:
+            corpus: 文档集合，每个文档是一个字符串。
+        """
+        self.corpus = corpus
+        self.tf = []
+        self.df = defaultdict(int)
+        self.idf = {}
+        self.avgdl = 0
+        self._preprocess()
+
+    def _preprocess(self):
+        """预处理文档集合，计算词频、文档频率和逆文档频率。"""
+        doc_lengths = []
+        for doc in self.corpus:
+            doc_words = doc.split()
+            doc_lengths.append(len(doc_words))
+            tf_doc = defaultdict(int)
+            for word in doc_words:
+                tf_doc[word] += 1
+            self.tf.append(tf_doc)
+            for word in tf_doc:
+                self.df[word] += 1
+        
+        N = len(self.corpus)
+        self.avgdl = sum(doc_lengths) / N
+        
+        for word, freq in self.df.items():
+            self.idf[word] = math.log((N - freq + 0.5) / (freq + 0.5) + 1)
+
+    def compute_tf_idf(self, query: List[str], doc_index: int) -> float:
+        """计算TF-IDF分数。
+
+        Args:
+            query: 查询词列表。
+            doc_index: 文档索引。
+
+        Returns:
+            TF-IDF分数。
+        """
+        score = 0.0
+        tf_doc = self.tf[doc_index]
+        for word in query:
+            tf = tf_doc[word]
+            idf = self.idf.get(word, 0)
+            score += tf * idf
+        return score
+
+    def compute_bm25(self, query: List[str], doc_index: int, k1: float = 1.5, b: float = 0.75) -> float:
+        """计算BM25分数。
+
+        Args:
+            query: 查询词列表。
+            doc_index: 文档索引。
+            k1: BM25参数，默认值为1.5。
+            b: BM25参数，默认值为0.75。
+
+        Returns:
+            BM25分数。
+        """
+        score = 0.0
+        tf_doc = self.tf[doc_index]
+        doc_length = sum(tf_doc.values())
+        for word in query:
+            tf = tf_doc[word]
+            idf = self.idf.get(word, 0)
+            term_score = idf * ((tf * (k1 + 1)) / (tf + k1 * (1 - b + b * (doc_length / self.avgdl))))
+            score += term_score
+        return score
+
+    def compute_term_proximity(self, query: List[str], doc_index: int) -> float:
+        """计算词距分数。
+
+        Args:
+            query: 查询词列表。
+            doc_index: 文档索引。
+
+        Returns:
+            词距分数。
+        """
+        score = 0.0
+        doc_words = self.corpus[doc_index].split()
+        positions = defaultdict(list)
+        for index, word in enumerate(doc_words):
+            if word in query:
+                positions[word].append(index)
+        
+        for i, word1 in enumerate(query):
+            for j, word2 in enumerate(query):
+                if i != j and word1 in positions and word2 in positions:
+                    for pos1 in positions[word1]:
+                        for pos2 in positions[word2]:
+                            distance = abs(pos1 - pos2)
+                            score += 1 / (distance ** 2)
+        return score
+
+
+# 示例代码，测试文本匹配类
+corpus = [
+    "机器学习是人工智能的一个分支",
+    "深度学习是机器学习的一个重要领域",
+    "自然语言处理是人工智能的一个重要应用"
+]
+
+text_matching = TextMatching(corpus)
+
+query = ["机器学习", "人工智能"]
+doc_index = 0
+
+tf_idf_score = text_matching.compute_tf_idf(query, doc_index)
+bm25_score = text_matching.compute_bm25(query, doc_index)
+term_proximity_score = text_matching.compute_term_proximity(query, doc_index)
+
+print(f"TF-IDF分数: {tf_idf_score}")
+print(f"BM25分数: {bm25_score}")
+print(f"词距分数: {term_proximity_score}")
