@@ -6,8 +6,8 @@
 ## 1. Overview
 
 This is a Chinese search-engine tutorial organized into 7 parts, subdivided into
-sections, with ~95 topic files. Every topic has a `.md` (theory) and a `.py` file.
-Today, **94 of the 95 `.py` files are empty stubs** containing only a header
+sections, with ~95 topic files. Every topic has a `.md` (theory) and a `.py` file. There are 94 topic pairs.
+Today, **93 of the 94 topic `.py` files are empty stubs** containing only a header
 docstring. The single exception (`3.1.2_文本匹配分数.py`, ~600 lines) is a fully
 implemented, exemplar-quality `TfIdfVectorizer` and defines the target style.
 
@@ -18,7 +18,11 @@ all 7 parts, in one spec + one plan, implemented in order.
 ## 2. Scope
 
 ### In scope
-- All 94 stub `.py` files → full, runnable, exemplar-quality implementations.
+- All **93** stub `.py` files → full, runnable, exemplar-quality implementations.
+- The existing exemplar `3.1.2_文本匹配分数.py` → **refactor from `scipy.sparse` to
+  numpy-only**, so it runs under the numpy-only rule and satisfies Definition of
+  Done. Its structure, docstrings, and teaching style are preserved; only the scipy
+  dependency is swapped for pure numpy. It remains the target style reference.
 - All 94 `.md` files → append a short "代码示例 (Code Example)" section.
 - `README.md` → brief addition noting code is runnable + how to run it.
 - `main.py` and `modify_files.sh` → left untouched.
@@ -86,8 +90,9 @@ It is not feasible to write this as one giant monolith. Approach:
 
 ## 6. Definition of Done (global)
 
-1. Every one of the 94 `.py` files runs `python3 <file>.py` without error and prints
-   meaningful demo output.
+1. Every one of the 94 topic `.py` files (93 new implementations + the refactored
+   `3.1.2` exemplar) runs `python3 <file>.py` without error and prints meaningful
+   demo output.
 2. Every `.md` has its Code Example section.
 3. `README.md` notes runnable code + run instructions.
 4. No heavy dependencies introduced; each part verified.
