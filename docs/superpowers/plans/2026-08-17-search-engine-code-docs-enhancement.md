@@ -255,7 +255,8 @@ def main() -> None:
     losses = clf.fit(X, y, epochs=40)
     print(f"初始loss={losses[0]:.4f}, 最终loss={losses[-1]:.4f}")
     for point in [(0, 0), (1.5, 1.5), (0.5, 2.5)]:
-        p = clf.predict_proba(np.array(point, dtype=float))[0]
+        row = np.array([point], dtype=float)   # 2D: (1, n_features)
+        p = clf.predict_proba(row)[0]
         print(f"  特征 {point} -> 预测概率 {p:.3f}")
 
 

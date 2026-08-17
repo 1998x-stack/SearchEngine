@@ -6,12 +6,11 @@ Content: 01_3.1.2_文本匹配分数
 """
 
 import numpy as np
-from scipy.sparse import csr_matrix
 from typing import List, Tuple
 
 class TfIdfVectorizer:
     """
-    TF-IDF Vectorizer using numpy and scipy
+    TF-IDF Vectorizer using pure numpy
 
     Attributes:
         vocabulary_ (dict): A dictionary where keys are terms and values are term indices.
@@ -41,7 +40,7 @@ class TfIdfVectorizer:
         
         return self
 
-    def transform(self, documents: List[str]) -> csr_matrix:
+    def transform(self, documents: List[str]) -> np.ndarray:
         """
         Transform documents into TF-IDF vectors.
 
@@ -49,17 +48,17 @@ class TfIdfVectorizer:
             documents (List[str]): List of documents as strings.
 
         Returns:
-            csr_matrix: Sparse matrix of TF-IDF vectors.
+            np.ndarray: Matrix of TF-IDF vectors.
         """
         # 创建TF矩阵
         tf_matrix = self._calculate_tf(documents)
         
         # 计算TF-IDF
-        tfidf_matrix = tf_matrix.multiply(self.idf_)
+        tfidf_matrix = tf_matrix * self.idf_
         
         return tfidf_matrix
 
-    def fit_transform(self, documents: List[str]) -> csr_matrix:
+    def fit_transform(self, documents: List[str]) -> np.ndarray:
         """
         Fit the vectorizer to the documents and transform them into TF-IDF vectors.
 
@@ -67,7 +66,7 @@ class TfIdfVectorizer:
             documents (List[str]): List of documents as strings.
 
         Returns:
-            csr_matrix: Sparse matrix of TF-IDF vectors.
+            np.ndarray: Matrix of TF-IDF vectors.
         """
         self.fit(documents)
         return self.transform(documents)
@@ -102,7 +101,7 @@ class TfIdfVectorizer:
         self.idf_ = np.log((1 + N) / (1 + df)) + 1
         print(f"IDF calculated for {len(self.idf_)} terms.")
 
-    def _calculate_tf(self, documents: List[str]) -> csr_matrix:
+    def _calculate_tf(self, documents: List[str]) -> np.ndarray:
         """
         Calculate term frequency (TF) matrix for the list of documents.
 
@@ -110,9 +109,9 @@ class TfIdfVectorizer:
             documents (List[str]): List of documents as strings.
 
         Returns:
-            csr_matrix: Sparse matrix of term frequencies.
+            np.ndarray: Matrix of term frequencies.
         """
-        rows, cols, data = [], [], []
+        tf_matrix = np.zeros((len(documents), len(self.vocabulary_)))
         for row_idx, doc in enumerate(documents):
             term_counts = {}
             for term in doc.split():
@@ -121,26 +120,22 @@ class TfIdfVectorizer:
                     term_counts[term_idx] = term_counts.get(term_idx, 0) + 1
             length = len(doc.split())
             for term_idx, count in term_counts.items():
-                rows.append(row_idx)
-                cols.append(term_idx)
-                data.append(count / length)
-        tf_matrix = csr_matrix((data, (rows, cols)), shape=(len(documents), len(self.vocabulary_)))
+                tf_matrix[row_idx, term_idx] = count / length
         print(f"TF matrix calculated with shape {tf_matrix.shape}.")
         return tf_matrix
     
 import numpy as np
-from scipy.sparse import csr_matrix
 from typing import List, Tuple, Dict
 
 class BM25:
     """
-    BM25 Vectorizer using numpy and scipy
+    BM25 Vectorizer using pure numpy
     
     Attributes:
         vocabulary_ (Dict[str, int]): A dictionary where keys are terms and values are term indices.
         doc_lengths_ (np.ndarray): Array of document lengths.
         avg_doc_length_ (float): Average document length.
-        term_freq_ (csr_matrix): Sparse matrix of term frequencies.
+        term_freq_ (np.ndarray): Dense matrix of term frequencies.
         doc_freq_ (np.ndarray): Array of document frequencies for terms in the vocabulary.
         num_docs_ (int): Number of documents.
         k1 (float): Term frequency saturation parameter.
@@ -190,24 +185,15 @@ class BM25:
         for term, count in term_counts.items():
             self.doc_freq_[self.vocabulary_[term]] = count
 
-        term_freq_data = []
-        term_freq_rows = []
-        term_freq_cols = []
-        
+        self.term_freq_ = np.zeros((self.num_docs_, len(self.vocabulary_)))
         for i, doc in enumerate(documents):
             term_freq = {}
             words = doc.split()
             for word in words:
                 term_idx = self.vocabulary_[word]
-                if term_idx not in term_freq:
-                    term_freq[term_idx] = 0
-                term_freq[term_idx] += 1
+                term_freq[term_idx] = term_freq.get(term_idx, 0) + 1
             for term_idx, freq in term_freq.items():
-                term_freq_rows.append(i)
-                term_freq_cols.append(term_idx)
-                term_freq_data.append(freq)
-        
-        self.term_freq_ = csr_matrix((term_freq_data, (term_freq_rows, term_freq_cols)), shape=(self.num_docs_, len(self.vocabulary_)))
+                self.term_freq_[i, term_idx] = freq
         
         return self
 
@@ -228,7 +214,7 @@ class BM25:
             if term in self.vocabulary_:
                 term_idx = self.vocabulary_[term]
                 idf = np.log((self.num_docs_ - self.doc_freq_[term_idx] + 0.5) / (self.doc_freq_[term_idx] + 0.5) + 1)
-                tf = self.term_freq_[:, term_idx].toarray().flatten()
+                tf = self.term_freq_[:, term_idx]
                 scores += idf * ((tf * (self.k1 + 1)) / (tf + self.k1 * (1 - self.b + self.b * self.doc_lengths_ / self.avg_doc_length_)))
         
         return scores
@@ -255,18 +241,17 @@ bm25 = BM25()
 scores = bm25.fit_transform(documents, query)
 print("BM25 Scores:", scores)
 import numpy as np
-from scipy.sparse import csr_matrix
 from typing import List, Tuple, Dict
 
 class BM25:
     """
-    BM25 Vectorizer using numpy and scipy
+    BM25 Vectorizer using pure numpy
     
     Attributes:
         vocabulary_ (Dict[str, int]): A dictionary where keys are terms and values are term indices.
         doc_lengths_ (np.ndarray): Array of document lengths.
         avg_doc_length_ (float): Average document length.
-        term_freq_ (csr_matrix): Sparse matrix of term frequencies.
+        term_freq_ (np.ndarray): Dense matrix of term frequencies.
         doc_freq_ (np.ndarray): Array of document frequencies for terms in the vocabulary.
         num_docs_ (int): Number of documents.
         k1 (float): Term frequency saturation parameter.
@@ -316,24 +301,15 @@ class BM25:
         for term, count in term_counts.items():
             self.doc_freq_[self.vocabulary_[term]] = count
 
-        term_freq_data = []
-        term_freq_rows = []
-        term_freq_cols = []
-        
+        self.term_freq_ = np.zeros((self.num_docs_, len(self.vocabulary_)))
         for i, doc in enumerate(documents):
             term_freq = {}
             words = doc.split()
             for word in words:
                 term_idx = self.vocabulary_[word]
-                if term_idx not in term_freq:
-                    term_freq[term_idx] = 0
-                term_freq[term_idx] += 1
+                term_freq[term_idx] = term_freq.get(term_idx, 0) + 1
             for term_idx, freq in term_freq.items():
-                term_freq_rows.append(i)
-                term_freq_cols.append(term_idx)
-                term_freq_data.append(freq)
-        
-        self.term_freq_ = csr_matrix((term_freq_data, (term_freq_rows, term_freq_cols)), shape=(self.num_docs_, len(self.vocabulary_)))
+                self.term_freq_[i, term_idx] = freq
         
         return self
 
@@ -354,7 +330,7 @@ class BM25:
             if term in self.vocabulary_:
                 term_idx = self.vocabulary_[term]
                 idf = np.log((self.num_docs_ - self.doc_freq_[term_idx] + 0.5) / (self.doc_freq_[term_idx] + 0.5) + 1)
-                tf = self.term_freq_[:, term_idx].toarray().flatten()
+                tf = self.term_freq_[:, term_idx]
                 scores += idf * ((tf * (self.k1 + 1)) / (tf + self.k1 * (1 - self.b + self.b * self.doc_lengths_ / self.avg_doc_length_)))
         
         return scores
@@ -383,12 +359,11 @@ print("BM25 Scores:", scores)
 
 
 import numpy as np
-from scipy.sparse import csr_matrix
 from typing import List, Dict, Tuple
 
 class TermProximityScore:
     """
-    Term Proximity Score (TPS) using numpy and scipy.
+    Term Proximity Score (TPS) using pure numpy.
     
     Attributes:
         vocabulary_ (Dict[str, int]): A dictionary where keys are terms and values are term indices.
