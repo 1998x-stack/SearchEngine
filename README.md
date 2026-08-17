@@ -1,6 +1,30 @@
 # SearchEngine
 这是一个关于SearchEngine的目录结构。
 
+## 运行代码 (Run the code)
+
+本仓库中每个主题均配有可运行的 Python 示例。任意主题可独立运行：
+
+```bash
+python3 "<主题>.py"
+```
+
+示例：
+
+```bash
+python3 "2_第二部分_机器学习基础/2.1_机器学习任务/00_2.1.1_二分类任务.py"
+```
+
+校验全部代码：
+
+```bash
+bash scripts/verify_all.sh
+```
+
+> 所有示例仅依赖 `numpy` 与 `matplotlib`，无需其它第三方库；每个 `.md` 文末附有「代码示例 (Code Example)」章节。
+
+---
+
 
 - https://chatgpt.com/share/c78e018b-7654-4cf7-ac7e-374fdd243cb0
 
