@@ -6,6 +6,9 @@ Content: 01_3.1.2_文本匹配分数
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List, Tuple
 
 class TfIdfVectorizer:

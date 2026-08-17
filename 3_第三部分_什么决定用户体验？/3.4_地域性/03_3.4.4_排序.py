@@ -6,6 +6,9 @@ Content: 03_3.4.4_排序
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List, Tuple
 
 

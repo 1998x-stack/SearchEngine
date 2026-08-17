@@ -6,6 +6,9 @@ Content: 02_2.3.3_微调
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

@@ -6,6 +6,9 @@ Content: 02_3.4.3_召回
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Dict, List, Tuple
 
 

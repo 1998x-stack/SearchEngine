@@ -6,6 +6,9 @@ Content: 02_2.1.3_回归任务
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

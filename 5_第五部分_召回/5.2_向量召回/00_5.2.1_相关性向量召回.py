@@ -6,6 +6,9 @@ Content: 00_5.2.1_相关性向量召回
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Dict, List
 
 

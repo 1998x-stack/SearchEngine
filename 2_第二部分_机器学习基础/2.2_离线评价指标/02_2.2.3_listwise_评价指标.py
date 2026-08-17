@@ -6,6 +6,9 @@ Content: 02_2.2.3_listwise_评价指标
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

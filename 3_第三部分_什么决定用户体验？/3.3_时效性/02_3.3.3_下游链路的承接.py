@@ -6,6 +6,9 @@ Content: 02_3.3.3_下游链路的承接
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

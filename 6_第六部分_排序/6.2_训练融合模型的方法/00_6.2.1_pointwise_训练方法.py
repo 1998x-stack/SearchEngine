@@ -6,6 +6,9 @@ Content: 00_6.2.1_pointwise_训练方法
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

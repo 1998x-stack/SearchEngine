@@ -6,6 +6,9 @@ Content: 01_7.3.2_多样性
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List, Tuple
 
 

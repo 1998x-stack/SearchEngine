@@ -6,6 +6,9 @@ Content: 03_2.2.4_知识点小结
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

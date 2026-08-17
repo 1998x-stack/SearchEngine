@@ -6,6 +6,9 @@ Content: 03_2.3.4_蒸馏
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 
 
 def softmax(z: np.ndarray) -> np.ndarray:

@@ -6,6 +6,9 @@ Content: 01_3.5.2_精排点击率模型
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

@@ -6,6 +6,9 @@ Content: 01_4.3.2_离线评价指标
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

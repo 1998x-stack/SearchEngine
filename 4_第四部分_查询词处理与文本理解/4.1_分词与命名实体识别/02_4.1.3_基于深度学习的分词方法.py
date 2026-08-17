@@ -6,6 +6,9 @@ Content: 02_4.1.3_基于深度学习的分词方法
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Dict, List
 
 

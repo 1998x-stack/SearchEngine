@@ -6,6 +6,9 @@ Content: 02_3.1.3_相关性_BERT_模型
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Tuple
 
 

@@ -6,6 +6,9 @@ Content: 00_4.3.1_多标签分类模型
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

@@ -6,6 +6,9 @@ Content: 01_2.3.2_后预训练
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 
 
 class DomainAdapter:

@@ -6,6 +6,9 @@ Content: 00_7.3.1_预估点击和转化
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

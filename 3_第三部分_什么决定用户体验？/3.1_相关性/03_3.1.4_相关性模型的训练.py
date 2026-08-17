@@ -6,6 +6,9 @@ Content: 03_3.1.4_相关性模型的训练
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

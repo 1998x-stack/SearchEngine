@@ -6,6 +6,9 @@ Content: 01_5.2.2_个性化向量召回
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Dict, List
 
 

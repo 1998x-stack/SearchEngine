@@ -6,6 +6,9 @@ Content: 01_4.2.2_基于注意力机制的方法
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List, Tuple
 
 

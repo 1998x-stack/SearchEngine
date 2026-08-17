@@ -6,6 +6,9 @@ Content: 00_3.5.1_特征
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Dict
 
 

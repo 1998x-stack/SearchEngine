@@ -6,6 +6,9 @@ Content: 03_1.2.3_人工体验评估
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

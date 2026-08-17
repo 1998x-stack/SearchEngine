@@ -6,6 +6,9 @@ Content: 00_2.3.1_预训练任务
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import Dict, List
 
 

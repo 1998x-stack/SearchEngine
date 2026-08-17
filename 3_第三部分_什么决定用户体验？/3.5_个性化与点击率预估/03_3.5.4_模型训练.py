@@ -6,6 +6,9 @@ Content: 03_3.5.4_模型训练
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

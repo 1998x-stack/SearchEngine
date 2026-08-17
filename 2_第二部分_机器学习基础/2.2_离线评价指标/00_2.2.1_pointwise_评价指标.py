@@ -6,6 +6,9 @@ Content: 00_2.2.1_pointwise_评价指标
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 

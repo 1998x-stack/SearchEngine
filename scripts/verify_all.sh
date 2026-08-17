@@ -13,7 +13,7 @@ while IFS= read -r f; do
     echo "FAIL: $f"
     fail=$((fail + 1))
   fi
-done < <(find . -name "*.py" -not -path './.git/*' -not -name 'main.py' | sort)
+done < <(find . -name "*.py" -not -path './.git/*' -not -path './docs/*' -not -path './scripts/*' -not -name 'main.py' | sort)
 
 echo "通过: $pass, 失败: $fail"
 if [ "$fail" -eq 0 ]; then

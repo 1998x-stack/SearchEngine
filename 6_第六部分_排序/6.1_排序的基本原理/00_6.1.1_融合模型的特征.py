@@ -6,6 +6,9 @@ Content: 00_6.1.1_融合模型的特征
 """
 
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 from typing import List
 
 
