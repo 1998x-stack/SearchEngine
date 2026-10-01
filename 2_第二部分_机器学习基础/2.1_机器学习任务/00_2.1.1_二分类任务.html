@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.1.1 二分类任务</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>00_2.1.1_二分类任务</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.1_机器学习任务
+Content: 00_2.1.1_二分类任务
+</code></pre>
+<h3>二分类任务的极致详细分析</h3>
+<h4>一、任务概述</h4>
+<p>二分类任务是机器学习中最基本且最常见的一类任务，目标是将输入特征向量 $ x $ 分类为两个类别之一：正样本（标签为1）或负样本（标签为0）。在搜索引擎中，点击率预估就是一个典型的二分类问题。例如，给定用户、查询词和文档的特征向量 $ x $，目标是预测用户是否会点击该文档。</p>
+<h4>二、模型选择</h4>
+<p>二分类任务中最常用的模型是Sigmoid分类器。Sigmoid分类器的输出是一个介于0和1之间的实数，代表样本属于正类的概率。</p>
+<h5>1. Sigmoid函数定义</h5>
+<p>Sigmoid函数是一种S形曲线函数，其数学表达式为：
+$$ \text{sigmoid}(z) = \frac{1}{1 + \exp(-z)} $$</p>
+<p>该函数能够将任意实数映射到(0,1)区间，如图3.1所示。</p>
+<h5>2. Sigmoid分类器</h5>
+<p>Sigmoid分类器的数学表达式为：
+$$ f(x; w, b) = \text{sigmoid}(x^\top w + b) $$
+其中，$ x $ 是输入特征向量，$ w $ 是权重向量，$ b $ 是偏置项。</p>
+<p>在点击率预估中，特征向量 $ x $ 可以是用户的行为特征、查询词的上下文特征以及文档的内容特征。输出 $ \hat{y} = f(x; w, b) $ 表示模型预测的点击概率，越接近1表示用户点击文档的概率越大。</p>
+<h4>三、模型训练</h4>
+<h5>1. 损失函数</h5>
+<p>为了训练Sigmoid分类器，我们通常使用交叉熵（Cross Entropy, CE）作为损失函数。交叉熵用于衡量两个概率分布之间的差异，定义为：
+$$ \text{CE}(p, q) = -\sum_{j=1}^m p_j \cdot \ln q_j $$
+其中，$ p $ 和 $ q $ 是两个概率分布向量。对于二分类问题，交叉熵损失函数可以进一步简化为：
+$$ \text{CE}(y, \hat{y}) = y \cdot \ln(\hat{y}) + (1 - y) \cdot \ln(1 - \hat{y}) $$
+这里，$ y $ 是真实标签，$ \hat{y} $ 是预测概率。</p>
+<h5>2. 参数更新</h5>
+<p>使用随机梯度下降（SGD）算法来最小化交叉熵损失函数，从而更新分类器的参数 $ w $ 和 $ b $。具体步骤如下：</p>
+<ol>
+<li>初始化参数 $ w $ 和 $ b $。</li>
+<li>对每个样本 $ (x_i, y_i) $，计算预测值 $ \hat{y}_i = f(x_i; w, b) $。</li>
+<li>计算损失函数的梯度：
+$$ \frac{\partial \text{CE}}{\partial w} = (y_i - \hat{y}_i) \cdot x_i $$
+$$ \frac{\partial \text{CE}}{\partial b} = y_i - \hat{y}_i $$</li>
+<li>更新参数：
+$$ w \leftarrow w + \eta \cdot \frac{\partial \text{CE}}{\partial w} $$
+$$ b \leftarrow b + \eta \cdot \frac{\partial \text{CE}}{\partial b} $$
+其中，$ \eta $ 是学习率。</li>
+</ol>
+<h4>四、模型评估</h4>
+<h5>1. 评价指标</h5>
+<p>二分类模型的常用评价指标包括准确率（Accuracy）、精确率（Precision）、召回率（Recall）和F1分数（F1 Score）等。此外，还可以使用ROC曲线和AUC值来评估模型的分类性能。</p>
+<ul>
+<li><strong>准确率</strong>：预测正确的样本数占总样本数的比例。</li>
+<li><strong>精确率</strong>：预测为正类的样本中实际为正类的比例。</li>
+<li><strong>召回率</strong>：实际为正类的样本中被预测为正类的比例。</li>
+<li><strong>F1分数</strong>：精确率和召回率的调和平均数，定义为：
+$$ F1 = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} $$</li>
+</ul>
+<h5>2. ROC曲线和AUC值</h5>
+<p>ROC曲线通过绘制不同阈值下的真阳性率（TPR）和假阳性率（FPR）来评估分类器的性能。AUC值（Area Under Curve）是ROC曲线下的面积，表示模型区分正负样本的能力。AUC值越大，模型性能越好。</p>
+<h4>五、实际应用中的注意事项</h4>
+<h5>1. 数据预处理</h5>
+<p>在实际应用中，需要对原始数据进行预处理，包括数据清洗、特征选择和特征工程等。例如，对于搜索引擎的点击率预估，需要提取用户行为特征、查询词特征和文档特征，并进行标准化处理。</p>
+<h5>2. 特征工程</h5>
+<p>特征工程是提升模型性能的关键步骤。通过对原始特征进行转换、组合或生成新的特征，可以提高模型的泛化能力。例如，可以使用TF-IDF特征、词嵌入特征或上下文特征等来增强模型的表达能力。</p>
+<h5>3. 模型调优</h5>
+<p>模型调优包括选择合适的超参数、使用正则化技术和集成方法等。可以通过交叉验证（Cross-Validation）来选择最优的超参数，使用L1或L2正则化来防止过拟合，并结合多个分类器的结果进行集成学习（Ensemble Learning）以提高模型的稳定性和准确性。</p>
+<p>总结而言，二分类任务是机器学习中的基础任务，广泛应用于搜索引擎、广告推荐、医学诊断等领域。通过合理选择模型、优化训练过程和进行特征工程，可以构建高效的二分类模型来解决实际问题。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 00_2.1.1_二分类任务
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.1_机器学习任务
+Content: 00_2.1.1_二分类任务
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

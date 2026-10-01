@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.3.2 后预训练</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>01_2.3.2_后预训练</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.3_NLP模型的训练
+Content: 01_2.3.2_后预训练
+</code></pre>
+<h3>后预训练的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>后预训练（Post Pre-training）是工业界常用的一种方法，用于在预训练和微调之间进一步提升模型性能。通过利用与下游任务高度相关的海量数据进行训练，后预训练可以显著提高模型在特定任务上的表现。其核心思想是结合无监督预训练和监督学习，充分利用大规模数据和少量人工标注数据。</p>
+<h4>二、后预训练的基本流程</h4>
+<h5>1. 数据收集与处理</h5>
+<ul>
+<li><strong>数据来源</strong>：主要来自搜索日志、用户行为数据等。例如，搜索引擎中的用户点击、点赞、收藏等行为可以作为数据来源。</li>
+<li><strong>数据清洗</strong>：对收集到的数据进行去重、去除无意义符号和表情等处理，以保证数据质量。</li>
+<li><strong>特征选择</strong>：根据下游任务选择合适的特征，例如点击率、交互率、文档质量等。</li>
+</ul>
+<h5>2. 教师模型的训练</h5>
+<ul>
+<li><strong>选择信号</strong>：从数据中提取与标签（如相关性分数）相关的信号。例如，当查询词为 q 时，文档 d 的点击率和交互率可以作为信号。</li>
+<li><strong>训练教师模型</strong>：使用少量人工标注数据训练小规模模型（如 GBDT），将其作为教师模型。教师模型通过拟合人工标注的分数，为海量数据生成标签。</li>
+</ul>
+<h5>3. 数据生成</h5>
+<ul>
+<li><strong>生成训练数据</strong>：利用教师模型为海量的 (q, d) 对生成标签。具体方法是从搜索日志中挖掘数亿对 (q, d) 对，并根据教师模型的预测生成标签。</li>
+<li><strong>构造训练样本</strong>：将 (q, d) 的文本作为输入，将教师模型的预测分数作为目标，构造训练样本用于后续训练。</li>
+</ul>
+<h5>4. 模型训练</h5>
+<ul>
+<li><strong>多任务损失函数</strong>：在后预训练过程中，可以同时保留 MLM 等预训练任务，通过多任务损失函数进行训练。常用的损失函数包括 pointwise 损失（如均方误差或交叉熵）、pairwise 损失（如 logistic 损失）以及 MLM 损失。</li>
+<li><strong>训练过程</strong>：使用构造好的海量数据进行训练，优化模型参数，使其更好地拟合下游任务。</li>
+</ul>
+<h4>三、后预训练的优点</h4>
+<h5>1. 数据量大</h5>
+<p>后预训练可以利用海量的日志数据，这些数据量远大于人工标注数据，从而显著提升模型的性能。例如，搜索日志中的数据可以扩展到数十亿对 (q, d) 样本。</p>
+<h5>2. 数据质量高</h5>
+<p>虽然后预训练数据的质量不如人工标注数据，但通过合理的数据处理和教师模型的应用，仍可以保证较高的数据质量。高质量的数据对模型性能的提升至关重要。</p>
+<h5>3. 与下游任务相关性强</h5>
+<p>后预训练的数据来源于实际应用场景，具有很强的任务相关性。例如，在搜索引擎中使用用户点击数据进行后预训练，可以直接提升搜索相关性的表现。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 避免反馈回路</h5>
+<p>在后预训练过程中，必须避免使用模型本身的预测作为特征，以防止形成反馈回路。教师模型只能使用原始特征（如查询词和文档的文本特征、用户行为统计量），而不能使用最终模型的预测分数。</p>
+<h5>2. 数据标注</h5>
+<p>虽然后预训练主要依赖于自动生成的数据，但仍需要少量人工标注的数据来训练教师模型。应确保标注数据的质量，以保证教师模型的准确性。</p>
+<h5>3. 多任务训练</h5>
+<p>在后预训练过程中，保留原始预训练任务（如 MLM 任务）的损失，可以避免预训练成果在后预训练阶段被“清洗掉”。这有助于保持模型的语言理解能力。</p>
+<h4>五、总结</h4>
+<p>后预训练是工业界提高 NLP 模型性能的有效手段。通过利用海量的任务相关数据，后预训练能够显著提升模型在特定任务上的表现。其核心在于数据的收集与处理、教师模型的应用以及多任务训练方法的使用。在实际应用中，注意避免反馈回路、确保数据质量和合理使用多任务训练方法，是保证后预训练效果的关键。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 01_2.3.2_后预训练
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.3_NLP模型的训练
+Content: 01_2.3.2_后预训练
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

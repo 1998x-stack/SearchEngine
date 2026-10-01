@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.1.4 知识点小结</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_1.1.4_知识点小结</h1>
+<pre><code>Lecture: 1_第一部分_搜索引擎基础/1.1_搜索引擎技术概要
+Content: 03_1.1.4_知识点小结
+</code></pre>
+<h3>知识点小结：搜索引擎技术概要</h3>
+<h4>一、分词与命名实体识别</h4>
+<p>分词和命名实体识别是搜索引擎处理中重要的基础步骤。分词是将文本切分成一个个独立的词语，而命名实体识别则是从文本中识别出特定的实体，如人名、地名、组织等。这些步骤的准确性直接影响后续的查询理解和结果召回。</p>
+<h4>二、词权重</h4>
+<p>词权重是指在查询词中不同词的重要性。通过计算每个词的权重，可以更好地理解用户查询的意图，并在搜索结果中进行权重调整，从而提升搜索结果的相关性。</p>
+<h4>三、类目识别</h4>
+<p>类目识别是将查询词或文档归类到预定义的类目体系中。它是一个多标签分类问题，可以通过基于BERT的模型进行训练，并使用sigmoid激活函数来处理多标签分类。类目识别在理解查询意图和排序结果中起到关键作用。</p>
+<h4>四、意图识别</h4>
+<p>意图识别是查询处理的核心任务之一，能够决定下游链路的调用。常见的查询意图包括时效性、地域性、用户名和求购意图等。通过识别这些意图，可以更精准地召回和排序结果，满足用户需求。</p>
+<h4>五、查询词改写</h4>
+<p>查询词改写是为了增加搜索结果的多样性和相关性，通过改写用户的查询词，可以获得更多相关的文档。改写可以基于分词、相关性和意图等多种方法进行。</p>
+<h4>六、召回</h4>
+<p>召回是从大规模文档集合中快速取回与查询词匹配的文档。主要包括文本召回和向量召回。文本召回使用倒排索引，而向量召回则使用近似最近邻索引进行语义匹配。</p>
+<h4>七、排序</h4>
+<p>排序是将召回的文档按照相关性进行排序。排序通常分为召回海选、粗排和精排三个阶段。通过多级排序模型，可以精细地调整每个文档的排序位置，以提高搜索结果的相关性和用户满意度。</p>
+<h4>八、总结</h4>
+<p>搜索引擎链路通过分词、词权重、类目识别、意图识别、查询词改写、召回和排序等环节，将用户输入的查询词转化为高相关性的排序结果。这些环节中的每个步骤都涉及复杂的算法和技术，通过不断优化，可以显著提升搜索引擎的性能和用户体验。</p>
+<h3>深入分析</h3>
+<h4>分词技术</h4>
+<ul>
+<li><strong>基于词典的分词方法</strong>：通过预先定义的词典进行匹配分词。</li>
+<li><strong>基于统计的分词方法</strong>：通过统计词频和词共现信息进行分词。</li>
+<li><strong>基于深度学习的分词方法</strong>：使用神经网络模型进行分词，如LSTM、BERT等。</li>
+</ul>
+<h4>意图识别的挑战</h4>
+<ul>
+<li><strong>时效性意图</strong>：需要判断查询词是否涉及到最新信息。</li>
+<li><strong>地域性意图</strong>：需要根据查询词识别用户的地域需求。</li>
+<li><strong>用户名意图</strong>：识别用户是否在搜索特定的用户名或ID。</li>
+<li><strong>求购意图</strong>：判断用户是否有购买需求，从而推荐商品或服务。</li>
+</ul>
+<h4>查询词改写的策略</h4>
+<ul>
+<li><strong>基于分词的改写</strong>：通过对查询词的分词结果进行重新组合和改写。</li>
+<li><strong>基于相关性的改写</strong>：利用查询词与文档的相关性进行改写，增加召回结果。</li>
+<li><strong>基于意图的改写</strong>：根据识别出的用户意图进行改写，以更好地匹配用户需求。</li>
+</ul>
+<h4>召回的优化</h4>
+<ul>
+<li><strong>倒排索引</strong>：建立高效的倒排索引结构，提高文本召回的速度和准确性。</li>
+<li><strong>向量召回</strong>：利用深度学习模型将查询词和文档表示为向量，通过向量匹配进行召回。</li>
+</ul>
+<h4>排序模型</h4>
+<ul>
+<li><strong>融合模型</strong>：将多种排序特征融合，通过训练复杂的排序模型进行多级排序。</li>
+<li><strong>点击率预估</strong>：通过历史数据预估文档的点击率，作为排序的重要依据。</li>
+<li><strong>内容质量评分</strong>：评估文档的内容质量，保证高质量内容排在前面。</li>
+</ul>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_1.1.4_知识点小结
+
+"""
+Lecture: 1_第一部分_搜索引擎基础/1.1_搜索引擎技术概要
+Content: 03_1.1.4_知识点小结
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

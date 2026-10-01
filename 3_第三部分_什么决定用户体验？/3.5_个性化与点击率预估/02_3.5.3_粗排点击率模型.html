@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.5.3 粗排点击率模型</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>02_3.5.3_粗排点击率模型</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.5_个性化与点击率预估
+Content: 02_3.5.3_粗排点击率模型
+</code></pre>
+<h3>粗排点击率模型的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>粗排点击率模型是搜索引擎和推荐系统中的重要模块，用于从大量候选文档中筛选出较少的高质量文档，以供后续的精排阶段使用。粗排阶段的目标是高效地过滤掉不相关或质量低的文档，保证最终展示给用户的内容质量和相关性。</p>
+<h4>二、粗排点击率模型的基本结构</h4>
+<h5>1. 模型输入</h5>
+<p>粗排点击率模型的输入包括查询词特征、用户特征、场景特征和文档特征。每种特征类型的具体内容如下：</p>
+<ul>
+<li><strong>查询词特征</strong>：包括查询词的文本特征、类目和意图（如时效性、地域性）。</li>
+<li><strong>用户特征</strong>：包括用户ID、用户画像（性别、年龄、兴趣等）、历史行为序列（最近搜索的查询词、点击过的文档）。</li>
+<li><strong>场景特征</strong>：包括当前时刻、是否是周末或节假日、用户所在地点、设备信息。</li>
+<li><strong>文档特征</strong>：包括文档ID、作者ID、类目、命名实体、地理定位、发布时间、内容质量分数等。</li>
+</ul>
+<h5>2. 特征处理</h5>
+<p>特征处理和转换是模型输入的关键步骤，包括数值特征的归一化、离散特征的嵌入表示、特征交叉等。</p>
+<ul>
+<li><strong>数值特征归一化</strong>：对数值特征进行标准化或归一化处理，提高模型训练效果。</li>
+<li><strong>离散特征嵌入表示</strong>：通过嵌入层将离散特征转换为向量表示，如用户ID、文档ID等。</li>
+<li><strong>特征交叉</strong>：对不同特征进行组合，以捕捉复杂的特征关系，如查询词和文档类目的组合。</li>
+</ul>
+<h5>3. 模型结构</h5>
+<p>粗排点击率模型通常使用双塔模型（Two-Tower Model），由两个子网络（塔）组成：</p>
+<ul>
+<li><strong>左塔</strong>：用于处理查询词、用户特征和场景特征，输出一个向量表示。</li>
+<li><strong>右塔</strong>：用于处理文档特征，输出一个向量表示。</li>
+<li><strong>预测</strong>：将左塔和右塔的输出向量做内积，通过sigmoid函数计算点击率。</li>
+</ul>
+<h4>三、模型训练与评估</h4>
+<h5>1. 数据准备</h5>
+<p>在模型训练之前，需要准备大量标注数据，包括用户的点击日志和行为数据。数据准备的步骤包括数据清洗、特征提取和样本标注。</p>
+<ul>
+<li><strong>数据清洗</strong>：去除噪声和无效数据，确保数据质量。</li>
+<li><strong>特征提取</strong>：提取每个样本的特征向量。</li>
+<li><strong>样本标注</strong>：根据用户实际点击行为，对样本进行正负样本标注。</li>
+</ul>
+<h5>2. 模型训练</h5>
+<p>使用准备好的数据对模型进行训练，注意超参数选择和调优。</p>
+<ul>
+<li><strong>训练算法</strong>：常用的训练算法包括随机梯度下降（SGD）和Adam等。</li>
+<li><strong>超参数调优</strong>：通过交叉验证和网格搜索选择最佳模型超参数，如学习率、正则化参数等。</li>
+</ul>
+<h5>3. 模型评估</h5>
+<p>模型评估包括离线评估和在线评估，常用指标有AUC、准确率、点击率等。</p>
+<ul>
+<li><strong>AUC</strong>：反映模型分类效果，值越大表示模型性能越好。</li>
+<li><strong>准确率</strong>：模型预测正确的比例。</li>
+<li><strong>点击率</strong>：文档被点击的概率。</li>
+</ul>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 数据质量</h5>
+<p>确保数据准确性和一致性是关键。数据准备阶段需要对数据进行清洗和预处理，提高模型训练效果。</p>
+<h5>2. 模型调优</h5>
+<p>在模型训练过程中，需要不断调整模型参数，提高模型泛化能力和预测精度。常用方法包括交叉验证和超参数调优。</p>
+<h5>3. 特征选择与优化</h5>
+<p>特征选择和优化在模型性能提升中起重要作用。通过特征重要性分析，识别对模型贡献最大的特征并进行优化。</p>
+<h4>五、总结</h4>
+<p>粗排点击率模型通过合理的特征选择、处理和建模，可以显著提升推荐系统和搜索引擎的点击率和用户体验。在实际应用中，需要注意数据质量、模型调优和特征优化，确保模型最佳性能。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 02_3.5.3_粗排点击率模型
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.5_个性化与点击率预估
+Content: 02_3.5.3_粗排点击率模型
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

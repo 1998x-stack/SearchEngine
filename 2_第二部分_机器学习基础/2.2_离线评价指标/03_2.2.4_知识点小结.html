@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.2.4 知识点小结</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_2.2.4_知识点小结</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.2_离线评价指标
+Content: 03_2.2.4_知识点小结
+</code></pre>
+<h3>知识点小结的极致详细分析</h3>
+<h4>一、Pointwise 评价指标</h4>
+<p>Pointwise 评价指标是最基础的评价方式，主要用于独立评估每个样本点的预测结果，而不考虑样本之间的关系。常用的 Pointwise 评价指标包括回归任务的均方误差（MSE），二分类任务的准确率、精确率、召回率和 F1 分数，以及多分类任务的宏平均 F1 和微平均 F1 分数。</p>
+<h4>二、Pairwise 评价指标</h4>
+<p>Pairwise 评价指标主要用于排序任务，重点评估样本对之间的相对排序关系，而不是单个样本的预测准确性。常用的 Pairwise 评价指标包括正逆序比和 RankNet 损失。通过比较样本对的相对顺序，可以更好地反映模型的排序效果，尤其在搜索引擎和推荐系统中应用广泛。</p>
+<h4>三、Listwise 评价指标</h4>
+<p>Listwise 评价指标关注整个结果列表的排序质量，而不仅仅是样本点或样本对。常用的 Listwise 评价指标包括 DCG（Discounted Cumulative Gain）和 NDCG（Normalized Discounted Cumulative Gain）。DCG 通过对排名靠前的文档给予更高的权重来反映其重要性，而 NDCG 通过归一化处理，使得不同查询的评价结果具有可比性。</p>
+<h4>四、离线评价的重要性</h4>
+<p>离线评价是模型迭代过程中必不可少的步骤。在上线之前，通过离线计算模型在测试集上的各类指标，可以初步验证新模型的效果，从而决定是否进行线上 A/B 测试。离线评价能够快速、低成本地筛选出潜在的优质模型，并在一定程度上保证用户体验的稳定性。</p>
+<h4>五、实际应用中的注意事项</h4>
+<h5>1. 数据预处理</h5>
+<p>无论是 Pointwise、Pairwise 还是 Listwise 评价指标，数据预处理都是必不可少的环节。通过数据清洗、特征选择和特征工程，可以提升模型的预测能力和评估准确性。例如，在搜索相关性评估中，常用的特征包括 TF-IDF、词嵌入等。</p>
+<h5>2. 特征工程</h5>
+<p>特征工程是提升模型性能的关键步骤。通过生成高质量的特征，可以显著提高模型的预测和排序能力。常见的方法包括特征转换、特征组合和生成新的特征。例如，结合词频、逆文档频率（TF-IDF）、词向量等特征，可以增强模型在搜索任务中的表现。</p>
+<h5>3. 模型调优</h5>
+<p>模型调优包括选择合适的超参数、使用正则化技术和集成方法等。通过交叉验证选择最优的超参数，使用 L1 或 L2 正则化来防止过拟合，并结合多个模型的结果进行集成学习，可以进一步提升模型的稳定性和准确性。</p>
+<h4>六、总结</h4>
+<p>Pointwise、Pairwise 和 Listwise 评价指标各有优势和应用场景，通过合理选择和结合使用这些指标，可以全面评估和优化机器学习模型的性能。离线评价在模型迭代过程中起到了至关重要的作用，能够有效筛选出潜在的优质模型，提高用户体验。</p>
+<hr>
+<h3>极致详细的 Pointwise 评价指标、Pairwise 评价指标和 Listwise 评价指标比较表</h3>
+<table>
+<thead>
+<tr>
+<th>比较维度</th>
+<th>Pointwise 评价指标</th>
+<th>Pairwise 评价指标</th>
+<th>Listwise 评价指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>定义</strong></td>
+<td>独立评估每个样本点的预测结果，不考虑样本之间的关系。</td>
+<td>评估样本对之间的相对排序关系。</td>
+<td>评估整个结果列表的排序质量。</td>
+</tr>
+<tr>
+<td><strong>应用场景</strong></td>
+<td>回归任务、分类任务（如二分类、多分类）。</td>
+<td>排序任务，特别是搜索引擎和推荐系统中的排序任务。</td>
+<td>搜索引擎和推荐系统中，关注整体排序效果的任务。</td>
+</tr>
+<tr>
+<td><strong>常用指标</strong></td>
+<td>- 回归任务：均方误差（MSE）</td>
+<td>- 正逆序比（Positive-Negative Ratio, PNR）</td>
+<td>- DCG（Discounted Cumulative Gain）</td>
+</tr>
+<tr>
+<td></td>
+<td>- 二分类任务：准确率（Accuracy）、精确率（Precision）、召回率（Recall）、F1 分数、AUC</td>
+<td>- RankNet 损失</td>
+<td>- NDCG（Normalized Discounted Cumulative Gain）</td>
+</tr>
+<tr>
+<td></td>
+<td>- 多分类任务：宏平均 F1 分数（Macro F1）、微平均 F1 分数（Micro F1）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>计算复杂度</strong></td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+</tr>
+<tr>
+<td><strong>评价重点</strong></td>
+<td>单个样本点的预测准确性</td>
+<td>样本对的相对排序关系</td>
+<td>整个结果列表的排序质量</td>
+</tr>
+<tr>
+<td><strong>优势</strong></td>
+<td>- 计算简单，易于实现</td>
+<td>- 更符合用户在排序任务中的体验</td>
+<td>- 更符合用户在搜索和推荐系统中的实际体验</td>
+</tr>
+<tr>
+<td></td>
+<td>- 适用于多种任务类型</td>
+<td>- 能更好地反映模型的排序效果</td>
+<td>- 全面反映结果列表的整体排序效果</td>
+</tr>
+<tr>
+<td><strong>缺点</strong></td>
+<td>- 不考虑样本之间的关系</td>
+<td>- 计算复杂度较 Pointwise 高</td>
+<td>- 计算复杂度高</td>
+</tr>
+<tr>
+<td></td>
+<td>- 在排序任务中的效果有限</td>
+<td>- 需要大量的成对样本数据，数据需求大</td>
+<td>- 需要大量标注数据，数据需求大</td>
+</tr>
+<tr>
+<td><strong>数据需求</strong></td>
+<td>相对较低</td>
+<td>相对较高</td>
+<td>最高</td>
+</tr>
+<tr>
+<td><strong>应用示例</strong></td>
+<td>- 回归任务中的房价预测、股票价格预测</td>
+<td>- 搜索引擎中的文档排序、推荐系统中的物品排序</td>
+<td>- 搜索引擎中的结果排序、推荐系统中的推荐列表排序</td>
+</tr>
+<tr>
+<td></td>
+<td>- 二分类任务中的垃圾邮件识别、图像二分类</td>
+<td>- RankNet 模型</td>
+<td>- 使用 DCG 和 NDCG 的排序模型</td>
+</tr>
+<tr>
+<td></td>
+<td>- 多分类任务中的图像识别、文本分类</td>
+<td>- Pairwise 损失函数优化模型</td>
+<td>- Listwise 损失函数优化模型</td>
+</tr>
+</tbody>
+</table>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_2.2.4_知识点小结
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.2_离线评价指标
+Content: 03_2.2.4_知识点小结
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

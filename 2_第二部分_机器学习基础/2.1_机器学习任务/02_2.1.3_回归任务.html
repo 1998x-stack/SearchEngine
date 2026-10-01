@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.1.3 回归任务</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>02_2.1.3_回归任务</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.1_机器学习任务
+Content: 02_2.1.3_回归任务
+</code></pre>
+<h3>回归任务的极致详细分析</h3>
+<h4>一、任务概述</h4>
+<p>回归任务是机器学习中的一种重要任务，目标是预测一个连续值标签 $ y $，而不是离散的类别标签。回归任务广泛应用于各种实际场景，例如房价预测、股票价格预测和用户评分预测等。</p>
+<h4>二、回归模型选择</h4>
+<h5>1. 线性回归模型</h5>
+<p>线性回归模型假设标签 $ y $ 是特征向量 $ x $ 的线性组合，其数学表达式为：
+$$ f(x; w, b) = x^\top w + b $$
+其中，$ w $ 是权重向量，$ b $ 是偏置项。</p>
+<h5>2. 多项式回归模型</h5>
+<p>为了提高模型的表达能力，可以使用多项式回归，将输入特征 $ x $ 扩展为多项式特征。例如，二次多项式回归的表达式为：
+$$ f(x; w, b) = w_0 + w_1 x + w_2 x^2 + \cdots + w_n x^n $$</p>
+<h5>3. 基于神经网络的回归模型</h5>
+<p>随着深度学习的发展，神经网络在回归任务中表现出色。神经网络可以通过多层非线性变换，从输入特征中提取更丰富的特征表示，从而提升模型的预测能力。</p>
+<h4>三、模型训练</h4>
+<h5>1. 损失函数</h5>
+<p>回归任务中常用的损失函数是均方误差（Mean Squared Error, MSE），其定义为：
+$$ \text{MSE}(y, \hat{y}) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
+其中，$ y_i $ 是真实标签，$ \hat{y}_i $ 是模型预测值。</p>
+<h5>2. 参数更新</h5>
+<p>使用梯度下降（Gradient Descent）算法来最小化均方误差损失函数，从而更新模型的参数 $ w $ 和 $ b $。具体步骤如下：</p>
+<ol>
+<li>初始化参数 $ w $ 和 $ b $。</li>
+<li>对每个样本 $ (x_i, y_i) $，计算预测值 $ \hat{y}_i = f(x_i; w, b) $。</li>
+<li>计算损失函数的梯度：
+$$ \frac{\partial \text{MSE}}{\partial w} = -\frac{2}{n} \sum_{i=1}^{n} x_i (y_i - \hat{y}<em i="1">i) $$
+$$ \frac{\partial \text{MSE}}{\partial b} = -\frac{2}{n} \sum</em>^{n} (y_i - \hat{y}_i) $$</li>
+<li>更新参数：
+$$ w \leftarrow w - \eta \cdot \frac{\partial \text{MSE}}{\partial w} $$
+$$ b \leftarrow b - \eta \cdot \frac{\partial \text{MSE}}{\partial b} $$
+其中，$ \eta $ 是学习率。</li>
+</ol>
+<h4>四、模型评估</h4>
+<h5>1. 评价指标</h5>
+<p>回归模型的常用评价指标包括均方误差（MSE）、均方根误差（RMSE）、平均绝对误差（MAE）和 $ R^2 $ 决定系数等。</p>
+<ul>
+<li><strong>均方误差（MSE）</strong>：衡量预测值与真实值之间的平均平方差。</li>
+<li><strong>均方根误差（RMSE）</strong>：均方误差的平方根，更直观地反映预测误差的大小。</li>
+<li><strong>平均绝对误差（MAE）</strong>：衡量预测值与真实值之间的平均绝对差。</li>
+<li><strong>$ R^2 $ 决定系数</strong>：衡量模型解释标签变异的比例，取值范围在 0 到 1 之间，越接近 1 表示模型性能越好。</li>
+</ul>
+<h4>五、实际应用中的注意事项</h4>
+<h5>1. 数据预处理</h5>
+<p>在实际应用中，需要对原始数据进行预处理，包括数据清洗、特征选择和特征工程等。例如，可以对特征进行标准化处理，以消除不同特征之间的量纲差异。</p>
+<h5>2. 特征工程</h5>
+<p>特征工程是提升模型性能的关键步骤。通过对原始特征进行转换、组合或生成新的特征，可以提高模型的泛化能力。例如，可以使用多项式特征、交互特征或特征降维方法来增强模型的表达能力。</p>
+<h5>3. 模型调优</h5>
+<p>模型调优包括选择合适的超参数、使用正则化技术和集成方法等。可以通过交叉验证（Cross-Validation）选择最优的超参数，使用L1或L2正则化来防止过拟合，并结合多个回归模型的结果进行集成学习（Ensemble Learning）以提高模型的稳定性和准确性。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 02_2.1.3_回归任务
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.1_机器学习任务
+Content: 02_2.1.3_回归任务
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

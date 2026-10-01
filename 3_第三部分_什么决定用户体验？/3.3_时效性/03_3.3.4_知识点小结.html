@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.3.4 知识点小结</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_3.3.4_知识点小结</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.3_时效性
+Content: 03_3.3.4_知识点小结
+</code></pre>
+<h2>知识点小结：时效性</h2>
+<h3>一、时效性意图分类</h3>
+<h4>1. 突发时效性</h4>
+<ul>
+<li><strong>定义</strong>：突发时效性查询词通常与突发事件、热点新闻等相关，搜索量在短时间内急剧增加。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>搜索量突然激增，随后逐渐下降。</li>
+<li>需通过数据挖掘或人工配置识别。</li>
+</ul>
+</li>
+<li><strong>实例</strong>：如“科比去世”、“世界杯开幕”等。</li>
+</ul>
+<h4>2. 一般时效性</h4>
+<ul>
+<li><strong>定义</strong>：一般时效性查询词表达对新文档的偏好，字面上可以看出时效性。</li>
+<li><strong>分档</strong>：
+<ul>
+<li>强时效性：包含明确时间节点或隐含时效需求的词。</li>
+<li>中、弱时效性：用户希望获得有用的信息，但旧信息也能接受。</li>
+</ul>
+</li>
+<li><strong>实例</strong>：如“最新手机评测”、“今日天气”等。</li>
+</ul>
+<h4>3. 周期时效性</h4>
+<ul>
+<li><strong>定义</strong>：周期时效性查询词在特定时间段内搜索量增加，如节假日、年度活动等。</li>
+<li><strong>特点</strong>：周期性出现，特定时间段内搜索量显著增加。</li>
+<li><strong>实例</strong>：如“双十一购物节”、“圣诞节礼物”等。</li>
+</ul>
+<h3>二、时效性数据</h3>
+<h4>1. 数据来源</h4>
+<ul>
+<li><strong>突发时效性数据</strong>：通过搜索引擎日志、社交媒体平台的热榜数据等获取。</li>
+<li><strong>一般时效性数据</strong>：通过查询日志、用户点击行为、文档更新时间等获取。</li>
+<li><strong>周期时效性数据</strong>：通过历史查询数据、节假日和年度活动的日历等获取。</li>
+</ul>
+<h4>2. 数据检测方法</h4>
+<ul>
+<li><strong>突发时效性</strong>：监控关键词的搜索量变化，识别突发事件。</li>
+<li><strong>一般时效性</strong>：利用自然语言处理技术，如BERT模型，通过查询词文本判断其时效性需求。</li>
+<li><strong>周期时效性</strong>：通过分析历史数据，识别周期性时效性数据。</li>
+</ul>
+<h3>三、下游链路的承接</h3>
+<h4>1. 查询词处理模块（QP模块）</h4>
+<ul>
+<li><strong>任务</strong>：分析查询词的时效性意图，并将信息传递给召回和排序模块。</li>
+<li><strong>步骤</strong>：
+<ul>
+<li>意图识别：判断查询词是否具有时效性意图。</li>
+<li>强弱判定：评估时效性意图的强弱程度。</li>
+</ul>
+</li>
+</ul>
+<h4>2. 召回模块</h4>
+<ul>
+<li><strong>任务</strong>：根据QP模块传递的时效性信息，调整召回策略。</li>
+<li><strong>策略</strong>：
+<ul>
+<li>新文档索引：为时效性强的查询词建立单独的新文档索引。</li>
+<li>文档过滤：根据文档的发布时间或最近一次更新的时间筛选符合时效性需求的文档。</li>
+</ul>
+</li>
+</ul>
+<h4>3. 排序模块</h4>
+<ul>
+<li><strong>任务</strong>：根据文档的时效性信息，调整排序策略。</li>
+<li><strong>策略</strong>：
+<ul>
+<li>时效性权重：根据查询词的时效性意图强弱，调整文档的时效性权重。</li>
+<li>综合排序：结合相关性和时效性，对文档进行综合排序。</li>
+</ul>
+</li>
+</ul>
+<h3>四、总结</h3>
+<p>时效性在搜索引擎优化中扮演着重要角色，通过对时效性意图分类、数据处理及下游链路承接的优化，能够显著提升搜索引擎的用户体验和准确性。通过合理的策略，可以有效满足用户对新信息的需求，提高搜索结果的相关性和时效性。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_3.3.4_知识点小结
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.3_时效性
+Content: 03_3.3.4_知识点小结
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

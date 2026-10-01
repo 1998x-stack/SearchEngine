@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.2.4 知识点小结</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>04_1.2.4_知识点小结</h1>
+<pre><code>Lecture: 1_第一部分_搜索引擎基础/1.2_搜索引擎的评价指标
+Content: 04_1.2.4_知识点小结
+</code></pre>
+<h2>知识点小结：搜索引擎评价指标</h2>
+<h3>一、简介</h3>
+<p>在搜索引擎的评估过程中，核心指标、中间过程指标和人工体验评估各有其重要性和作用。核心指标包括用户规模与留存指标，中间过程指标包括点击率、有点比、首点位置、交互率、换词率等，而人工体验评估则通过专业人员对搜索结果进行主观评价。</p>
+<h3>二、核心指标</h3>
+<p>核心指标主要包括用户规模与留存指标，反映了搜索引擎的整体健康状况和用户黏性。</p>
+<h4>1. 用户规模</h4>
+<ul>
+<li><strong>日活跃用户数（DAU）</strong>：每日使用搜索引擎的用户数量。</li>
+<li><strong>周活跃用户数（WAU）</strong>：每周至少使用一次搜索引擎的用户数量。</li>
+<li><strong>月活跃用户数（MAU）</strong>：每月至少使用一次搜索引擎的用户数量。</li>
+</ul>
+<h4>2. 用户留存</h4>
+<ul>
+<li><strong>次 n 日内留存率</strong>：用户在首次使用后的 n 天内再次使用的比例。</li>
+<li><strong>第 n 日留存率</strong>：用户在首次使用后的第 n 天再次使用的比例。</li>
+</ul>
+<h3>三、中间过程指标</h3>
+<p>中间过程指标用于弥补核心指标的不足，通过更细化的维度来评估用户体验。</p>
+<h4>1. 点击率（CTR）</h4>
+<p>点击率是指用户点击搜索结果的次数与总展示次数的比值。高点击率通常表示搜索结果的吸引力较高。</p>
+<h4>2. 有点比（Hit Rate）</h4>
+<p>有点比是指用户在一次搜索后有点击行为的次数与总搜索次数的比值。它反映了搜索结果对用户需求的满足程度。</p>
+<h4>3. 首屏有点比</h4>
+<p>首屏有点比是指用户在搜索结果首屏上的点击次数与总点击次数的比值。该指标高说明用户在首屏上就找到了满意的结果。</p>
+<h4>4. 交互率</h4>
+<p>交互率包括用户对内容的点赞、收藏、转发、关注和评论等行为的比例。高交互率表示用户对内容的深度满意度较高。</p>
+<h4>5. 换词率</h4>
+<p>换词率是指用户在一次搜索会话中主动更换查询词的频率。较高的换词率通常意味着用户对初次搜索结果不满意。</p>
+<h3>四、人工体验评估</h3>
+<p>人工体验评估通过专业人员对搜索结果进行主观评价，弥补了量化指标难以全面覆盖的细节。</p>
+<h4>1. SBS评估</h4>
+<p>Side by Side评估是通过对比实验组和对照组的搜索结果，评估其相关性、时效性和内容质量等。</p>
+<h4>2. 月度评估</h4>
+<p>每月抽取一定数量的搜索结果进行人工评估，计算DCG（Discounted Cumulative Gain）分数，监控用户体验的变化趋势。</p>
+<h3>五、详细表格</h3>
+<table>
+<thead>
+<tr>
+<th>指标类别</th>
+<th>指标名称</th>
+<th>英文名称</th>
+<th>具体定义</th>
+<th>作用及重要性</th>
+<th>测量周期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心指标</td>
+<td>日活跃用户数</td>
+<td>Daily Active User (DAU)</td>
+<td>每日使用搜索引擎的用户数量。</td>
+<td>反映日常活跃度，衡量短期用户参与度。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>核心指标</td>
+<td>周活跃用户数</td>
+<td>Weekly Active User (WAU)</td>
+<td>每周至少使用一次搜索引擎的用户数量。</td>
+<td>反映中期活跃度，衡量用户在一周内的活跃情况。</td>
+<td>每周</td>
+</tr>
+<tr>
+<td>核心指标</td>
+<td>月活跃用户数</td>
+<td>Monthly Active User (MAU)</td>
+<td>每月至少使用一次搜索引擎的用户数量。</td>
+<td>反映长期活跃度，衡量用户在一个月内的活跃情况。</td>
+<td>每月</td>
+</tr>
+<tr>
+<td>核心指标</td>
+<td>次 n 日内留存率</td>
+<td>Retention Rate within n Days</td>
+<td>用户在首次使用后的 n 天内再次使用的比例。</td>
+<td>反映用户对搜索引擎的持续使用意愿。</td>
+<td>n 日后</td>
+</tr>
+<tr>
+<td>核心指标</td>
+<td>第 n 日留存率</td>
+<td>Retention Rate on Day n</td>
+<td>用户在首次使用后的第 n 天再次使用的比例。</td>
+<td>关注特定时间点的用户活跃情况。</td>
+<td>第 n 日</td>
+</tr>
+<tr>
+<td>中间过程</td>
+<td>点击率</td>
+<td>Click-Through Rate (CTR)</td>
+<td>用户点击搜索结果的次数与总展示次数的比值。</td>
+<td>衡量用户对搜索结果的满意度。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>中间过程</td>
+<td>有点比</td>
+<td>Hit Rate</td>
+<td>用户每次搜索后有点击行为的次数与总搜索次数的比值。</td>
+<td>衡量用户对搜索结果的满意度。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>中间过程</td>
+<td>首屏有点比</td>
+<td>First Screen Hit Rate</td>
+<td>用户在搜索结果首屏上的点击次数与总点击次数的比值。</td>
+<td>衡量用户在首屏找到满意结果的情况。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>中间过程</td>
+<td>交互率</td>
+<td>Interaction Rate</td>
+<td>用户对内容的点赞、收藏、转发、关注和评论等行为的比例。</td>
+<td>反映用户对内容的深层次满意度。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>中间过程</td>
+<td>换词率</td>
+<td>Query Reformulation Rate</td>
+<td>用户在一次搜索会话中主动更换查询词的频率。</td>
+<td>较高的换词率通常意味着用户对初次搜索结果不满意。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>人工评估</td>
+<td>SBS评估</td>
+<td>Side by Side Evaluation</td>
+<td>对比实验组和对照组的搜索结果页，评价相关性、时效性、内容质量等。</td>
+<td>全面性高，能捕捉细节和用户感受。</td>
+<td>每次策略变更前</td>
+</tr>
+<tr>
+<td>人工评估</td>
+<td>月度评估</td>
+<td>Monthly Evaluation</td>
+<td>每月抽取数千次搜索结果，人工评估其相关性、时效性、内容质量等，并计算DCG分数。</td>
+<td>长期监控用户体验变化，提供趋势分析。</td>
+<td>每月</td>
+</tr>
+<tr>
+<td>DCG指标</td>
+<td>DCG@k</td>
+<td>Discounted Cumulative Gain</td>
+<td>衡量搜索结果质量的标准，计算公式为$$ \text{DCG@k} = \sum_{i=1}^{k} \frac{\text{score}(u, q, d_i)}{\log_2(i+1)} $$。</td>
+<td>反映文档在搜索结果页中的排名权重，注重排名靠前文档的满意度。</td>
+<td>每次评估</td>
+</tr>
+</tbody>
+</table>
+<h3>六、总结</h3>
+<p>通过综合使用核心指标、中间过程指标和人工体验评估，可以全面、准确地评估搜索引擎的性能和用户体验。这些指标各有其重要性和应用场景，合理利用和优化这些指标，可以显著提升搜索引擎的用户满意度和业务收益。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 04_1.2.4_知识点小结
+
+"""
+Lecture: 1_第一部分_搜索引擎基础/1.2_搜索引擎的评价指标
+Content: 04_1.2.4_知识点小结
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

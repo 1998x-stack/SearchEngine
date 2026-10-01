@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.1.4 排序任务</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_2.1.4_排序任务</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.1_机器学习任务
+Content: 03_2.1.4_排序任务
+</code></pre>
+<h3>排序任务的极致详细分析</h3>
+<h4>一、任务概述</h4>
+<p>排序任务是搜索引擎中常见的一类机器学习任务，其目标是对一组候选项目进行排序，使得更相关或更重要的项目排在前面。在搜索引擎中，排序任务主要用于确定搜索结果的显示顺序，提高用户体验。</p>
+<h4>二、排序模型选择</h4>
+<h5>1. 线性模型</h5>
+<p>线性模型通过线性组合输入特征来计算评分，其数学表达式为：
+$$ f(x; w) = x^\top w $$
+其中，$ x $ 是输入特征向量，$ w $ 是权重向量。线性模型简单且计算效率高，适用于大规模数据的排序任务。</p>
+<h5>2. 基于神经网络的排序模型</h5>
+<p>神经网络模型通过多层非线性变换，从输入特征中提取更丰富的特征表示，适用于复杂的排序任务。例如，深度神经网络（DNN）和卷积神经网络（CNN）在图像和文本排序任务中表现出色。</p>
+<h4>三、排序任务的损失函数</h4>
+<h5>1. Pairwise Logistic Loss</h5>
+<p>为了优化排序模型，我们通常使用 pairwise logistic loss 作为损失函数。该损失函数的目标是最大化正序对的数量，最小化逆序对的数量。其定义为：
+$$ L(w) = \frac{1}{m^2} \sum_{(i,j): y_i &gt; y_j} \ln \left[1 + \exp\left( -(p_i - p_j) \right) \right] $$
+其中，$ p_i = f(x_i; w) $ 和 $ p_j = f(x_j; w) $ 分别是样本 $ i $ 和 $ j $ 的模型评分。</p>
+<h5>2. RankNet 损失函数</h5>
+<p>RankNet 损失函数是另一种常用的排序损失函数，其目标也是最大化正序对数量。损失函数的定义为：
+$$ \text{RankNet}(w) = \sum_{(i,j): y_i &gt; y_j} \ln \left[1 + \exp\left( -(p_i - p_j) \right) \right] $$
+RankNet 的优化目标是增大正序对数量、减小逆序对数量，但其定义忽略了标签间的相对大小和文档的排名信息。</p>
+<h4>四、模型训练与优化</h4>
+<h5>1. 数据预处理</h5>
+<p>在排序任务中，数据预处理至关重要。需要对原始数据进行清洗、特征选择和特征工程等操作。例如，对于文本排序任务，可以使用词嵌入表示文本特征，对于图像排序任务，可以使用卷积神经网络提取图像特征。</p>
+<h5>2. 模型训练</h5>
+<p>使用梯度下降算法来最小化损失函数，从而更新模型参数 $ w $。具体步骤如下：</p>
+<ol>
+<li>初始化参数 $ w $。</li>
+<li>对每个样本对 $ (x_i, y_i) $ 和 $ (x_j, y_j) $，计算预测值 $ p_i = f(x_i; w) $ 和 $ p_j = f(x_j; w) $。</li>
+<li>计算损失函数的梯度：
+$$ \frac{\partial L}{\partial w} = \sum_{(i,j): y_i &gt; y_j} \left[ \frac{\partial L}{\partial p_i} \frac{\partial p_i}{\partial w} - \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial w} \right] $$</li>
+<li>更新参数：
+$$ w \leftarrow w - \eta \cdot \frac{\partial L}{\partial w} $$
+其中，$ \eta $ 是学习率。</li>
+</ol>
+<h4>五、模型评估</h4>
+<h5>1. 评价指标</h5>
+<p>排序模型的常用评价指标包括平均排序位置（Mean Rank Position, MRP）、NDCG（Normalized Discounted Cumulative Gain）和 MAP（Mean Average Precision）等。</p>
+<ul>
+<li><strong>平均排序位置（MRP）</strong>：衡量模型预测的平均排序位置，数值越小表示模型性能越好。</li>
+<li><strong>NDCG</strong>：衡量模型在不同位置的排序质量，数值越大表示模型性能越好。</li>
+<li><strong>MAP</strong>：衡量模型在多个查询中的平均准确率，数值越大表示模型性能越好。</li>
+</ul>
+<h4>六、实际应用中的注意事项</h4>
+<h5>1. 特征工程</h5>
+<p>特征工程是提升排序模型性能的关键步骤。通过对原始特征进行转换、组合或生成新的特征，可以提高模型的泛化能力。例如，可以使用TF-IDF特征、词嵌入特征或上下文特征等来增强模型的表达能力。</p>
+<h5>2. 模型调优</h5>
+<p>模型调优包括选择合适的超参数、使用正则化技术和集成方法等。可以通过交叉验证选择最优的超参数，使用L2正则化来防止过拟合，并结合多个排序模型的结果进行集成学习以提高模型的稳定性和准确性。</p>
+<h5>3. 多队列混排</h5>
+<p>在实际应用中，查询词可能具有多重意图，这就带来多队列混排问题。例如，对于“火锅”查询，可能包含附近的火锅店和在家做火锅的教程。需要综合考虑多个队列的分数，以确保最相关的结果排在前面。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_2.1.4_排序任务
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.1_机器学习任务
+Content: 03_2.1.4_排序任务
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

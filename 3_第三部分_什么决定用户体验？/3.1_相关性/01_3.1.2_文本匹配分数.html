@@ -1,0 +1,721 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.1.2 文本匹配分数</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>01_3.1.2_文本匹配分数</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.1_相关性
+Content: 01_3.1.2_文本匹配分数
+</code></pre>
+<h3>文本匹配分数的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>文本匹配分数是搜索引擎和推荐系统中用于计算查询词与文档相关性的核心技术之一。传统的文本匹配方法包括 TF-IDF 和 BM25，它们通过词频和逆文档频率来衡量查询词和文档之间的相关性。在深度学习模型如 BERT 出现之前，这些方法是计算相关性的主要依据。尽管如今语义模型已经成为主流，但文本匹配分数依然在工业界广泛使用，特别是作为特征输入到梯度提升决策树（GBDT）模型中，以进一步优化相关性计算。</p>
+<h4>二、文本匹配分数的分类</h4>
+<h5>1. TF-IDF（Term Frequency-Inverse Document Frequency）</h5>
+<p>TF-IDF 是一种经典的文本匹配算法，主要通过计算词频和逆文档频率来衡量词的重要性和相关性。</p>
+<ul>
+<li><strong>词频（Term Frequency, TF）</strong>：词 t 在文档 d 中出现的次数，记作 $ tf_{t,d} $。</li>
+<li><strong>逆文档频率（Inverse Document Frequency, IDF）</strong>：词 t 在整个文档集合中的重要性，定义为 $ idf_t = \log \left( \frac{N}{df_t} \right) $，其中 $ N $ 是文档总数，$ df_t $ 是包含词 t 的文档数。</li>
+<li><strong>计算公式</strong>：
+$$
+\text{TF-IDF}(Q, d) = \sum_{t \in Q} \left( tf_{t,d} \times idf_t \right)
+$$
+其中，$ Q $ 是查询词集合，$ d $ 是文档。</li>
+</ul>
+<h5>2. BM25（Best Matching 25）</h5>
+<p>BM25 是一种改进的 TF-IDF 算法，能够更好地处理词频和文档长度的影响。</p>
+<ul>
+<li><strong>计算公式</strong>：
+$$
+\text{BM25}(Q, d) = \sum_{t \in Q} \left( \frac{tf_{t,d} \times (k_1 + 1)}{tf_{t,d} + k_1 \times (1 - b + b \times \frac{|d|}{\text{avgdl}})} \times \log \left( \frac{N - df_t + 0.5}{df_t + 0.5} \right) \right)
+$$
+其中，$ k_1 $ 和 $ b $ 是可调参数，通常 $ k_1 \in [1.2, 2] $，$ b = 0.75 $，$ |d| $ 是文档长度，$ \text{avgdl} $ 是平均文档长度。</li>
+</ul>
+<h5>3. 词距分数（Term Proximity）</h5>
+<p>词距分数用于衡量查询词在文档中出现的相对距离，以解决词袋模型忽略词序的问题。</p>
+<ul>
+<li><strong>计算公式</strong>：
+$$
+tp(t, t', d) = \sum_{o \in O(t,d)} \sum_{o' \in O(t',d)} \frac{1}{|o - o'|^2}
+$$
+其中，$ O(t,d) $ 是词 t 在文档 d 中出现的位置集合，|o - o'| 是词 t 和 t' 之间的距离。</li>
+</ul>
+<h4>三、文本匹配分数的应用</h4>
+<h5>1. 数据预处理</h5>
+<p>在计算文本匹配分数之前，需要对数据进行预处理，包括分词、去停用词、词干提取等。</p>
+<ul>
+<li><strong>分词</strong>：将查询词和文档分解为词语或词组。</li>
+<li><strong>去停用词</strong>：去除不具有实际意义的停用词，如“的”、“了”、“在”等。</li>
+<li><strong>词干提取</strong>：将词语还原为词干形式，如将“running”还原为“run”。</li>
+</ul>
+<h5>2. 模型训练</h5>
+<p>文本匹配分数可以作为特征输入到机器学习模型中，例如 GBDT，以进一步提升相关性计算的准确性。</p>
+<ul>
+<li><strong>特征工程</strong>：将 TF-IDF、BM25 和词距分数等作为特征，与其他特征一起输入到模型中。</li>
+<li><strong>模型优化</strong>：通过调整模型参数和优化算法，提高模型的预测性能。</li>
+</ul>
+<h5>3. 模型评估</h5>
+<p>使用不同的文本匹配分数和模型组合，可以在验证集上评估模型性能，选择最佳模型。</p>
+<ul>
+<li><strong>评估指标</strong>：常用的评估指标包括准确率、精确率、召回率、F1 分数等。</li>
+<li><strong>模型验证</strong>：在验证集上评估模型性能，并根据评估结果进行参数调整和模型优化。</li>
+</ul>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 特征选择</h5>
+<p>根据下游任务选择合适的文本匹配分数和其他特征，以提升模型的性能。</p>
+<ul>
+<li><strong>多样性</strong>：结合多种文本匹配分数，例如 TF-IDF、BM25 和词距分数，以丰富特征集。</li>
+<li><strong>相关性</strong>：选择与任务高度相关的特征，避免无关或冗余特征。</li>
+</ul>
+<h5>2. 模型调优</h5>
+<p>通过交叉验证和网格搜索等方法，调整模型参数，优化模型性能。</p>
+<ul>
+<li><strong>超参数调优</strong>：例如调整 GBDT 的树数、深度、学习率等参数。</li>
+<li><strong>正则化</strong>：使用正则化技术防止模型过拟合，提高模型的泛化能力。</li>
+</ul>
+<h5>3. 数据质量</h5>
+<p>确保用于训练和评估的数据质量高，以提高模型的可靠性和稳定性。</p>
+<ul>
+<li><strong>数据清洗</strong>：去除噪声数据和错误标注的数据。</li>
+<li><strong>数据标注</strong>：确保标注数据的准确性和一致性，尤其是在人工标注阶段。</li>
+</ul>
+<h4>五、总结</h4>
+<p>文本匹配分数在搜索引擎和推荐系统中起到了至关重要的作用。尽管深度学习模型如 BERT 逐渐成为主流，但传统的文本匹配方法如 TF-IDF 和 BM25 依然在实际应用中发挥着重要作用。通过合理选择和优化文本匹配分数，可以显著提升模型的性能和用户体验。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 01_3.1.2_文本匹配分数
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.1_相关性
+Content: 01_3.1.2_文本匹配分数
+"""
+
+import numpy as np
+from scipy.sparse import csr_matrix
+from typing import List, Tuple
+
+class TfIdfVectorizer:
+    """
+    TF-IDF Vectorizer using numpy and scipy
+
+    Attributes:
+        vocabulary_ (dict): A dictionary where keys are terms and values are term indices.
+        idf_ (np.ndarray): Array of inverse document frequencies for terms in the vocabulary.
+    """
+
+    def __init__(self) -> None:
+        """Initialize the vectorizer with an empty vocabulary and IDF array."""
+        self.vocabulary_ = {}
+        self.idf_ = None
+
+    def fit(self, documents: List[str]) -> 'TfIdfVectorizer':
+        """
+        Learn the vocabulary and IDF from the list of documents.
+
+        Args:
+            documents (List[str]): List of documents as strings.
+
+        Returns:
+            self (TfIdfVectorizer): The fitted vectorizer.
+        """
+        # 创建词汇表
+        self._build_vocabulary(documents)
+        
+        # 计算IDF
+        self._calculate_idf(documents)
+        
+        return self
+
+    def transform(self, documents: List[str]) -> csr_matrix:
+        """
+        Transform documents into TF-IDF vectors.
+
+        Args:
+            documents (List[str]): List of documents as strings.
+
+        Returns:
+            csr_matrix: Sparse matrix of TF-IDF vectors.
+        """
+        # 创建TF矩阵
+        tf_matrix = self._calculate_tf(documents)
+        
+        # 计算TF-IDF
+        tfidf_matrix = tf_matrix.multiply(self.idf_)
+        
+        return tfidf_matrix
+
+    def fit_transform(self, documents: List[str]) -> csr_matrix:
+        """
+        Fit the vectorizer to the documents and transform them into TF-IDF vectors.
+
+        Args:
+            documents (List[str]): List of documents as strings.
+
+        Returns:
+            csr_matrix: Sparse matrix of TF-IDF vectors.
+        """
+        self.fit(documents)
+        return self.transform(documents)
+
+    def _build_vocabulary(self, documents: List[str]) -> None:
+        """
+        Build the vocabulary from the list of documents.
+
+        Args:
+            documents (List[str]): List of documents as strings.
+        """
+        vocab = set()
+        for doc in documents:
+            vocab.update(doc.split())
+        self.vocabulary_ = {term: idx for idx, term in enumerate(vocab)}
+        print(f"Vocabulary built with {len(self.vocabulary_)} terms.")
+
+    def _calculate_idf(self, documents: List[str]) -> None:
+        """
+        Calculate inverse document frequency (IDF) for each term in the vocabulary.
+
+        Args:
+            documents (List[str]): List of documents as strings.
+        """
+        N = len(documents)
+        df = np.zeros(len(self.vocabulary_))
+        for doc in documents:
+            terms = set(doc.split())
+            for term in terms:
+                if term in self.vocabulary_:
+                    df[self.vocabulary_[term]] += 1
+        self.idf_ = np.log((1 + N) / (1 + df)) + 1
+        print(f"IDF calculated for {len(self.idf_)} terms.")
+
+    def _calculate_tf(self, documents: List[str]) -> csr_matrix:
+        """
+        Calculate term frequency (TF) matrix for the list of documents.
+
+        Args:
+            documents (List[str]): List of documents as strings.
+
+        Returns:
+            csr_matrix: Sparse matrix of term frequencies.
+        """
+        rows, cols, data = [], [], []
+        for row_idx, doc in enumerate(documents):
+            term_counts = {}
+            for term in doc.split():
+                if term in self.vocabulary_:
+                    term_idx = self.vocabulary_[term]
+                    term_counts[term_idx] = term_counts.get(term_idx, 0) + 1
+            length = len(doc.split())
+            for term_idx, count in term_counts.items():
+                rows.append(row_idx)
+                cols.append(term_idx)
+                data.append(count / length)
+        tf_matrix = csr_matrix((data, (rows, cols)), shape=(len(documents), len(self.vocabulary_)))
+        print(f"TF matrix calculated with shape {tf_matrix.shape}.")
+        return tf_matrix
+    
+import numpy as np
+from scipy.sparse import csr_matrix
+from typing import List, Tuple, Dict
+
+class BM25:
+    """
+    BM25 Vectorizer using numpy and scipy
+    
+    Attributes:
+        vocabulary_ (Dict[str, int]): A dictionary where keys are terms and values are term indices.
+        doc_lengths_ (np.ndarray): Array of document lengths.
+        avg_doc_length_ (float): Average document length.
+        term_freq_ (csr_matrix): Sparse matrix of term frequencies.
+        doc_freq_ (np.ndarray): Array of document frequencies for terms in the vocabulary.
+        num_docs_ (int): Number of documents.
+        k1 (float): Term frequency saturation parameter.
+        b (float): Length normalization parameter.
+    """
+
+    def __init__(self, k1: float = 1.5, b: float = 0.75) -> None:
+        """Initialize the vectorizer with default parameters and empty attributes."""
+        self.vocabulary_ = {}
+        self.doc_lengths_ = None
+        self.avg_doc_length_ = None
+        self.term_freq_ = None
+        self.doc_freq_ = None
+        self.num_docs_ = 0
+        self.k1 = k1
+        self.b = b
+
+    def fit(self, documents: List[str]) -> 'BM25':
+        """
+        Learn the vocabulary and document frequencies from the list of documents.
+        
+        Args:
+            documents (List[str]): List of documents as strings.
+        
+        Returns:
+            self (BM25): Fitted BM25 object.
+        """
+        self.num_docs_ = len(documents)
+        term_counts = {}
+        doc_lengths = []
+
+        for doc in documents:
+            words = doc.split()
+            doc_lengths.append(len(words))
+            unique_words = set(words)
+            for word in unique_words:
+                if word not in self.vocabulary_:
+                    self.vocabulary_[word] = len(self.vocabulary_)
+                if word not in term_counts:
+                    term_counts[word] = 0
+                term_counts[word] += 1
+
+        self.doc_lengths_ = np.array(doc_lengths)
+        self.avg_doc_length_ = np.mean(self.doc_lengths_)
+        self.doc_freq_ = np.zeros(len(self.vocabulary_))
+        
+        for term, count in term_counts.items():
+            self.doc_freq_[self.vocabulary_[term]] = count
+
+        term_freq_data = []
+        term_freq_rows = []
+        term_freq_cols = []
+        
+        for i, doc in enumerate(documents):
+            term_freq = {}
+            words = doc.split()
+            for word in words:
+                term_idx = self.vocabulary_[word]
+                if term_idx not in term_freq:
+                    term_freq[term_idx] = 0
+                term_freq[term_idx] += 1
+            for term_idx, freq in term_freq.items():
+                term_freq_rows.append(i)
+                term_freq_cols.append(term_idx)
+                term_freq_data.append(freq)
+        
+        self.term_freq_ = csr_matrix((term_freq_data, (term_freq_rows, term_freq_cols)), shape=(self.num_docs_, len(self.vocabulary_)))
+        
+        return self
+
+    def transform(self, query: str) -> np.ndarray:
+        """
+        Transform the query to BM25 scores with respect to the fitted documents.
+        
+        Args:
+            query (str): The query as a string.
+        
+        Returns:
+            scores (np.ndarray): BM25 scores for each document.
+        """
+        query_terms = query.split()
+        scores = np.zeros(self.num_docs_)
+        
+        for term in query_terms:
+            if term in self.vocabulary_:
+                term_idx = self.vocabulary_[term]
+                idf = np.log((self.num_docs_ - self.doc_freq_[term_idx] + 0.5) / (self.doc_freq_[term_idx] + 0.5) + 1)
+                tf = self.term_freq_[:, term_idx].toarray().flatten()
+                scores += idf * ((tf * (self.k1 + 1)) / (tf + self.k1 * (1 - self.b + self.b * self.doc_lengths_ / self.avg_doc_length_)))
+        
+        return scores
+
+    def fit_transform(self, documents: List[str], query: str) -> np.ndarray:
+        """
+        Fit the BM25 model and transform the query in one step.
+        
+        Args:
+            documents (List[str]): List of documents as strings.
+            query (str): The query as a string.
+        
+        Returns:
+            scores (np.ndarray): BM25 scores for each document.
+        """
+        self.fit(documents)
+        return self.transform(query)
+
+# Example usage
+documents = ["this is a sample document", "this document is another example", "BM25 is a ranking function"]
+query = "sample document"
+
+bm25 = BM25()
+scores = bm25.fit_transform(documents, query)
+print("BM25 Scores:", scores)
+import numpy as np
+from scipy.sparse import csr_matrix
+from typing import List, Tuple, Dict
+
+class BM25:
+    """
+    BM25 Vectorizer using numpy and scipy
+    
+    Attributes:
+        vocabulary_ (Dict[str, int]): A dictionary where keys are terms and values are term indices.
+        doc_lengths_ (np.ndarray): Array of document lengths.
+        avg_doc_length_ (float): Average document length.
+        term_freq_ (csr_matrix): Sparse matrix of term frequencies.
+        doc_freq_ (np.ndarray): Array of document frequencies for terms in the vocabulary.
+        num_docs_ (int): Number of documents.
+        k1 (float): Term frequency saturation parameter.
+        b (float): Length normalization parameter.
+    """
+
+    def __init__(self, k1: float = 1.5, b: float = 0.75) -> None:
+        """Initialize the vectorizer with default parameters and empty attributes."""
+        self.vocabulary_ = {}
+        self.doc_lengths_ = None
+        self.avg_doc_length_ = None
+        self.term_freq_ = None
+        self.doc_freq_ = None
+        self.num_docs_ = 0
+        self.k1 = k1
+        self.b = b
+
+    def fit(self, documents: List[str]) -> 'BM25':
+        """
+        Learn the vocabulary and document frequencies from the list of documents.
+        
+        Args:
+            documents (List[str]): List of documents as strings.
+        
+        Returns:
+            self (BM25): Fitted BM25 object.
+        """
+        self.num_docs_ = len(documents)
+        term_counts = {}
+        doc_lengths = []
+
+        for doc in documents:
+            words = doc.split()
+            doc_lengths.append(len(words))
+            unique_words = set(words)
+            for word in unique_words:
+                if word not in self.vocabulary_:
+                    self.vocabulary_[word] = len(self.vocabulary_)
+                if word not in term_counts:
+                    term_counts[word] = 0
+                term_counts[word] += 1
+
+        self.doc_lengths_ = np.array(doc_lengths)
+        self.avg_doc_length_ = np.mean(self.doc_lengths_)
+        self.doc_freq_ = np.zeros(len(self.vocabulary_))
+        
+        for term, count in term_counts.items():
+            self.doc_freq_[self.vocabulary_[term]] = count
+
+        term_freq_data = []
+        term_freq_rows = []
+        term_freq_cols = []
+        
+        for i, doc in enumerate(documents):
+            term_freq = {}
+            words = doc.split()
+            for word in words:
+                term_idx = self.vocabulary_[word]
+                if term_idx not in term_freq:
+                    term_freq[term_idx] = 0
+                term_freq[term_idx] += 1
+            for term_idx, freq in term_freq.items():
+                term_freq_rows.append(i)
+                term_freq_cols.append(term_idx)
+                term_freq_data.append(freq)
+        
+        self.term_freq_ = csr_matrix((term_freq_data, (term_freq_rows, term_freq_cols)), shape=(self.num_docs_, len(self.vocabulary_)))
+        
+        return self
+
+    def transform(self, query: str) -> np.ndarray:
+        """
+        Transform the query to BM25 scores with respect to the fitted documents.
+        
+        Args:
+            query (str): The query as a string.
+        
+        Returns:
+            scores (np.ndarray): BM25 scores for each document.
+        """
+        query_terms = query.split()
+        scores = np.zeros(self.num_docs_)
+        
+        for term in query_terms:
+            if term in self.vocabulary_:
+                term_idx = self.vocabulary_[term]
+                idf = np.log((self.num_docs_ - self.doc_freq_[term_idx] + 0.5) / (self.doc_freq_[term_idx] + 0.5) + 1)
+                tf = self.term_freq_[:, term_idx].toarray().flatten()
+                scores += idf * ((tf * (self.k1 + 1)) / (tf + self.k1 * (1 - self.b + self.b * self.doc_lengths_ / self.avg_doc_length_)))
+        
+        return scores
+
+    def fit_transform(self, documents: List[str], query: str) -> np.ndarray:
+        """
+        Fit the BM25 model and transform the query in one step.
+        
+        Args:
+            documents (List[str]): List of documents as strings.
+            query (str): The query as a string.
+        
+        Returns:
+            scores (np.ndarray): BM25 scores for each document.
+        """
+        self.fit(documents)
+        return self.transform(query)
+
+# Example usage
+documents = ["this is a sample document", "this document is another example", "BM25 is a ranking function"]
+query = "sample document"
+
+bm25 = BM25()
+scores = bm25.fit_transform(documents, query)
+print("BM25 Scores:", scores)
+
+
+import numpy as np
+from scipy.sparse import csr_matrix
+from typing import List, Dict, Tuple
+
+class TermProximityScore:
+    """
+    Term Proximity Score (TPS) using numpy and scipy.
+    
+    Attributes:
+        vocabulary_ (Dict[str, int]): A dictionary where keys are terms and values are term indices.
+        doc_term_positions_ (List[Dict[int, List[int]]]): List of dictionaries, each containing term positions for each document.
+        num_docs_ (int): Number of documents.
+    """
+
+    def __init__(self) -> None:
+        """Initialize the TPS with an empty vocabulary and term positions list."""
+        self.vocabulary_ = {}
+        self.doc_term_positions_ = []
+        self.num_docs_ = 0
+
+    def fit(self, documents: List[str]) -> 'TermProximityScore':
+        """
+        Learn the vocabulary and term positions from the list of documents.
+        
+        Args:
+            documents (List[str]): List of documents as strings.
+        
+        Returns:
+            self (TermProximityScore): Fitted TPS object.
+        """
+        self.num_docs_ = len(documents)
+        
+        for doc in documents:
+            words = doc.split()
+            term_positions = {}
+            for pos, word in enumerate(words):
+                if word not in self.vocabulary_:
+                    self.vocabulary_[word] = len(self.vocabulary_)
+                term_idx = self.vocabulary_[word]
+                if term_idx not in term_positions:
+                    term_positions[term_idx] = []
+                term_positions[term_idx].append(pos)
+            self.doc_term_positions_.append(term_positions)
+        
+        return self
+
+    def transform(self, query: str) -> np.ndarray:
+        """
+        Transform the query to Term Proximity Scores with respect to the fitted documents.
+        
+        Args:
+            query (str): The query as a string.
+        
+        Returns:
+            scores (np.ndarray): Term Proximity Scores for each document.
+        """
+        query_terms = query.split()
+        query_term_indices = [self.vocabulary_[term] for term in query_terms if term in self.vocabulary_]
+        scores = np.zeros(self.num_docs_)
+        
+        for i, term_positions in enumerate(self.doc_term_positions_):
+            for j, term_idx in enumerate(query_term_indices):
+                if term_idx in term_positions:
+                    positions = term_positions[term_idx]
+                    for k in range(j + 1, len(query_term_indices)):
+                        next_term_idx = query_term_indices[k]
+                        if next_term_idx in term_positions:
+                            next_positions = term_positions[next_term_idx]
+                            for pos in positions:
+                                for next_pos in next_positions:
+                                    distance = abs(pos - next_pos)
+                                    if distance > 0:
+                                        scores[i] += 1 / (distance ** 2)
+        
+        return scores
+
+    def fit_transform(self, documents: List[str], query: str) -> np.ndarray:
+        """
+        Fit the TPS model and transform the query in one step.
+        
+        Args:
+            documents (List[str]): List of documents as strings.
+            query (str): The query as a string.
+        
+        Returns:
+            scores (np.ndarray): Term Proximity Scores for each document.
+        """
+        self.fit(documents)
+        return self.transform(query)
+
+# Example usage
+documents = ["this is a sample document", "this document is another example", "term proximity score is useful"]
+query = "sample document"
+
+tps = TermProximityScore()
+scores = tps.fit_transform(documents, query)
+print("Term Proximity Scores:", scores)
+
+
+
+import numpy as np
+from typing import List, Dict, Tuple
+from collections import defaultdict
+import math
+
+class TextMatching:
+    """文本匹配类，用于计算文本匹配分数，如TF-IDF、BM25和词距分数。
+
+    Attributes:
+        corpus: 文档集合，每个文档是一个字符串。
+        tf: 词频字典，存储每个词在每个文档中的词频。
+        df: 文档频率字典，存储每个词在多少个文档中出现过。
+        idf: 逆文档频率字典，存储每个词的逆文档频率。
+        avgdl: 平均文档长度。
+    """
+
+    def __init__(self, corpus: List[str]):
+        """初始化TextMatching类，计算文档频率和逆文档频率。
+
+        Args:
+            corpus: 文档集合，每个文档是一个字符串。
+        """
+        self.corpus = corpus
+        self.tf = []
+        self.df = defaultdict(int)
+        self.idf = {}
+        self.avgdl = 0
+        self._preprocess()
+
+    def _preprocess(self):
+        """预处理文档集合，计算词频、文档频率和逆文档频率。"""
+        doc_lengths = []
+        for doc in self.corpus:
+            doc_words = doc.split()
+            doc_lengths.append(len(doc_words))
+            tf_doc = defaultdict(int)
+            for word in doc_words:
+                tf_doc[word] += 1
+            self.tf.append(tf_doc)
+            for word in tf_doc:
+                self.df[word] += 1
+        
+        N = len(self.corpus)
+        self.avgdl = sum(doc_lengths) / N
+        
+        for word, freq in self.df.items():
+            self.idf[word] = math.log((N - freq + 0.5) / (freq + 0.5) + 1)
+
+    def compute_tf_idf(self, query: List[str], doc_index: int) -> float:
+        """计算TF-IDF分数。
+
+        Args:
+            query: 查询词列表。
+            doc_index: 文档索引。
+
+        Returns:
+            TF-IDF分数。
+        """
+        score = 0.0
+        tf_doc = self.tf[doc_index]
+        for word in query:
+            tf = tf_doc[word]
+            idf = self.idf.get(word, 0)
+            score += tf * idf
+        return score
+
+    def compute_bm25(self, query: List[str], doc_index: int, k1: float = 1.5, b: float = 0.75) -> float:
+        """计算BM25分数。
+
+        Args:
+            query: 查询词列表。
+            doc_index: 文档索引。
+            k1: BM25参数，默认值为1.5。
+            b: BM25参数，默认值为0.75。
+
+        Returns:
+            BM25分数。
+        """
+        score = 0.0
+        tf_doc = self.tf[doc_index]
+        doc_length = sum(tf_doc.values())
+        for word in query:
+            tf = tf_doc[word]
+            idf = self.idf.get(word, 0)
+            term_score = idf * ((tf * (k1 + 1)) / (tf + k1 * (1 - b + b * (doc_length / self.avgdl))))
+            score += term_score
+        return score
+
+    def compute_term_proximity(self, query: List[str], doc_index: int) -> float:
+        """计算词距分数。
+
+        Args:
+            query: 查询词列表。
+            doc_index: 文档索引。
+
+        Returns:
+            词距分数。
+        """
+        score = 0.0
+        doc_words = self.corpus[doc_index].split()
+        positions = defaultdict(list)
+        for index, word in enumerate(doc_words):
+            if word in query:
+                positions[word].append(index)
+        
+        for i, word1 in enumerate(query):
+            for j, word2 in enumerate(query):
+                if i != j and word1 in positions and word2 in positions:
+                    for pos1 in positions[word1]:
+                        for pos2 in positions[word2]:
+                            distance = abs(pos1 - pos2)
+                            score += 1 / (distance ** 2)
+        return score
+
+
+# 示例代码，测试文本匹配类
+corpus = [
+    "机器学习是人工智能的一个分支",
+    "深度学习是机器学习的一个重要领域",
+    "自然语言处理是人工智能的一个重要应用"
+]
+
+text_matching = TextMatching(corpus)
+
+query = ["机器学习", "人工智能"]
+doc_index = 0
+
+tf_idf_score = text_matching.compute_tf_idf(query, doc_index)
+bm25_score = text_matching.compute_bm25(query, doc_index)
+term_proximity_score = text_matching.compute_term_proximity(query, doc_index)
+
+print(f"TF-IDF分数: {tf_idf_score}")
+print(f"BM25分数: {bm25_score}")
+print(f"词距分数: {term_proximity_score}")
+</code></pre>
+  </div>
+</body>
+</html>
+  

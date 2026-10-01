@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.4.5 实验结果</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>04_3.4.5_实验结果</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.4_地域性
+Content: 04_3.4.5_实验结果
+</code></pre>
+<h3>实验结果的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>实验结果是评估搜索引擎和推荐系统性能的重要环节，通过对不同策略和模型的实验验证，可以有效提升系统的用户体验和相关性。在本节中，我们将详细分析实验结果的各个方面，特别是对于不同意图和策略的实验效果。</p>
+<h4>二、实验设计</h4>
+<h5>1. 实验目的</h5>
+<p>实验的主要目的是验证不同策略在实际应用中的效果，包括显式和隐式的地域性意图，以及不同的展示方式对用户点击行为的影响。具体目标包括：</p>
+<ul>
+<li>提升关键词的有效点击率</li>
+<li>验证距离和POI标签的影响</li>
+<li>评估不同策略对用户深度消费的影响。</li>
+</ul>
+<h5>2. 实验方法</h5>
+<p>实验采用A/B测试和小流量实验相结合的方法，通过比较实验组和对照组在相同条件下的表现来评估策略的效果。具体步骤包括：</p>
+<ul>
+<li><strong>分组</strong>：将用户随机分为实验组和对照组，实验组应用新策略，对照组维持现有策略。</li>
+<li><strong>数据收集</strong>：记录用户的点击、交互行为以及其他相关数据。</li>
+<li><strong>数据分析</strong>：通过统计分析比较实验组和对照组的关键指标，如点击率、深度消费占比等。</li>
+</ul>
+<h4>三、实验结果</h4>
+<h5>1. 关键词有效点击率</h5>
+<p>实验结果显示，新策略在显式附近意图、隐式附近意图和隐式同城意图的有效点击率上均有显著提升，分别增长了8.5pt、1pt和1.4pt。相比之下，显式同城意图的有效点击率略有下降，故未全量推行。</p>
+<ul>
+<li><strong>显式附近意图</strong>：增长8.5pt</li>
+<li><strong>隐式附近意图</strong>：增长1pt</li>
+<li><strong>隐式同城意图</strong>：增长1.4pt</li>
+<li><strong>显式同城意图</strong>：略有下降。</li>
+</ul>
+<h5>2. 距离和POI标签的影响</h5>
+<p>在前端UI界面上展示距离和POI名称，有助于用户决策是否点击进入笔记。实验结果表明，这种展示方式导致有效点击率下降0.3pt，但深度消费占比增加了0.2pt。这表明用户可以通过标签外显做出更合理的决策，减少了无效点击。</p>
+<ul>
+<li><strong>有效点击率</strong>：下降0.3pt</li>
+<li><strong>深度消费占比</strong>：增加0.2pt。</li>
+</ul>
+<h5>3. 用户行为稳定性</h5>
+<p>当用户熟悉了新策略（如距离和城市标签的外显），其行为趋于稳定，未来可以使用这些行为数据训练LTR（Learning to Rank）模型，用模型打分代替策略。当前实验阶段以策略为主，未来逐步过渡到模型驱动。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 数据质量</h5>
+<p>确保数据的准确性和一致性是关键。实验过程中需要对用户行为数据进行清洗，去除噪声和无效信息，以提高实验结果的可靠性。</p>
+<h5>2. 模型调优</h5>
+<p>在模型训练和调优过程中，需要不断调整参数，以提高模型的泛化能力和预测精度。常用方法包括交叉验证和超参数调优。</p>
+<h5>3. 用户体验评估</h5>
+<p>通过定期的用户体验评估（如月度评估和SBS评估），可以持续监测策略的效果，确保用户体验的不断提升。</p>
+<h4>五、总结</h4>
+<p>实验结果表明，新策略在提升关键词有效点击率和用户深度消费方面具有显著效果。在实际应用中，通过合理的数据处理和模型调优，可以进一步优化策略，提升用户体验和系统性能。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 04_3.4.5_实验结果
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.4_地域性
+Content: 04_3.4.5_实验结果
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

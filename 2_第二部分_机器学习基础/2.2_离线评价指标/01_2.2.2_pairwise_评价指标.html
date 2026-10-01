@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.2.2 pairwise 评价指标</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>01_2.2.2_pairwise_评价指标</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.2_离线评价指标
+Content: 01_2.2.2_pairwise_评价指标
+</code></pre>
+<h3>Pointwise 评价指标的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>Pointwise 评价指标是一类用于评估机器学习模型性能的离线指标。其特点是将测试集里的每对样本 $ (q, d) $ 独立看待，判断模型给每对样本打分的准确性，而不考虑样本之间的关系。在搜索引擎和推荐系统中，Pointwise 评价方式特别常用。</p>
+<h4>二、Pointwise 评价指标的分类</h4>
+<h5>1. 回归评价指标</h5>
+<p>在回归任务中，Pointwise 评价指标主要考察模型预测值 $ \hat{y} $ 是否接近真实值 $ y $。常用的回归评价指标是均方误差（MSE），其定义为：
+$$ \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 $$
+均方误差反映了预测值与真实值之间的平均平方误差，值越小表示模型性能越好。</p>
+<h5>2. 二分类评价指标</h5>
+<p>在二分类任务中，Pointwise 评价指标将相关性问题建模为二分类问题，即标签为相关或无关。常用的二分类评价指标包括准确率（Accuracy）、精确率（Precision）、召回率（Recall）、F1 分数和 AUC（Area Under Curve）。</p>
+<ul>
+<li>
+<p><strong>准确率（Accuracy）</strong>：预测正确的样本占总样本的比例。
+$$ \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} $$</p>
+</li>
+<li>
+<p><strong>精确率（Precision）</strong>：预测为正的样本中实际为正的比例。
+$$ \text{Precision} = \frac{TP}{TP + FP} $$</p>
+</li>
+<li>
+<p><strong>召回率（Recall）</strong>：实际为正的样本中被预测为正的比例。
+$$ \text{Recall} = \frac{TP}{TP + FN} $$</p>
+</li>
+<li>
+<p><strong>F1 分数</strong>：精确率和召回率的调和平均数。
+$$ \text{F1} = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} $$</p>
+</li>
+<li>
+<p><strong>AUC</strong>：ROC 曲线下的面积，反映了模型对正负样本的区分能力。AUC 越大，模型性能越好。</p>
+</li>
+</ul>
+<h5>3. 多分类评价指标</h5>
+<p>在多分类任务中，Pointwise 评价指标主要考察模型对每个类别的预测性能。常用的多分类评价指标包括宏平均 F1 分数（Macro F1）和微平均 F1 分数（Micro F1）。</p>
+<ul>
+<li>
+<p><strong>宏平均 F1 分数（Macro F1）</strong>：对每个类别计算 F1 分数，然后取平均值，适用于类别数量相对均衡的情况。
+$$ \text{Macro F1} = \frac{1}{k} \sum_{i=1}^{k} \text{F1}_i $$</p>
+</li>
+<li>
+<p><strong>微平均 F1 分数（Micro F1）</strong>：先计算总的 TP、FP 和 FN，再计算 F1 分数，适用于类别不均衡的情况。
+$$ \text{Micro F1} = \frac{2 \cdot \text{Precision}<em>{\text{micro}} \cdot \text{Recall}</em>{\text{micro}}}{\text{Precision}<em>{\text{micro}} + \text{Recall}</em>{\text{micro}}} $$
+其中，Precision 和 Recall 的计算基于总体的 TP、FP 和 FN。</p>
+</li>
+</ul>
+<h4>三、Pointwise 评价指标的应用</h4>
+<h5>1. 数据预处理</h5>
+<p>在进行 Pointwise 评价之前，需要对数据进行预处理，包括数据清洗、特征选择和特征工程等。例如，在搜索相关性评估中，可以使用 TF-IDF、词嵌入等特征来表示文档和查询词。</p>
+<h5>2. 模型训练</h5>
+<p>Pointwise 评价指标在模型训练过程中也起到重要作用。通过最小化回归任务中的 MSE 或二分类任务中的交叉熵损失，可以优化模型参数，提高模型的预测性能。</p>
+<h5>3. 模型评估</h5>
+<p>在模型评估阶段，通过计算测试集上的 Pointwise 评价指标，可以衡量模型的性能，选择最优模型。例如，在搜索相关性任务中，可以计算不同模型的 AUC 值，以比较它们的区分能力。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 特征工程</h5>
+<p>特征工程是提升模型性能的关键步骤。通过生成高质量的特征，可以显著提高模型的预测能力。例如，在搜索相关性任务中，可以结合词频、逆文档频率（TF-IDF）、词向量等特征。</p>
+<h5>2. 模型调优</h5>
+<p>模型调优包括选择合适的超参数、使用正则化技术和集成方法等。可以通过交叉验证选择最优的超参数，使用 L1 或 L2 正则化来防止过拟合，并结合多个模型的结果进行集成学习。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 01_2.2.2_pairwise_评价指标
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.2_离线评价指标
+Content: 01_2.2.2_pairwise_评价指标
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

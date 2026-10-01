@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.5.4 模型训练</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_3.5.4_模型训练</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.5_个性化与点击率预估
+Content: 03_3.5.4_模型训练
+</code></pre>
+<h3>粗排点击率模型的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>粗排点击率模型在搜索引擎和推荐系统中起到承上启下的作用。它从数千个候选文档中选出数百个，供精排模型进行最终排序。粗排点击率模型主要通过计算用户查询词与文档的相关性来预测用户的点击率，从而提高搜索结果的相关性和用户满意度。</p>
+<h4>二、粗排点击率模型的基本结构</h4>
+<h5>1. 模型输入</h5>
+<p>粗排点击率模型的输入包括查询词特征、用户特征、文档特征和场景特征：</p>
+<ul>
+<li><strong>查询词特征</strong>：查询词的文本特征和类目等。</li>
+<li><strong>用户特征</strong>：用户ID、用户画像（如性别、年龄等）和用户行为序列（如最近的搜索和点击历史）。</li>
+<li><strong>文档特征</strong>：文档ID、文档类目、命名实体、地理定位、发布时间和内容质量分数等。</li>
+<li><strong>场景特征</strong>：当前时刻、是否为周末或节假日、用户所在地点和设备信息。</li>
+</ul>
+<h5>2. 模型结构</h5>
+<p>粗排点击率模型常用双塔模型（Two-Tower Model）进行实现，具体结构如下：</p>
+<ul>
+<li><strong>左塔（Query Tower）</strong>：负责处理查询词特征、用户特征和场景特征，生成查询词的向量表征。</li>
+<li><strong>右塔（Document Tower）</strong>：负责处理文档特征，生成文档的向量表征。</li>
+<li><strong>点击率预测</strong>：通过计算左塔和右塔输出向量的内积，使用sigmoid函数计算点击率。</li>
+</ul>
+<h5>3. 模型训练</h5>
+<p>训练粗排点击率模型的步骤包括：</p>
+<ul>
+<li><strong>数据准备</strong>：收集用户的点击日志和行为数据，生成训练样本。</li>
+<li><strong>特征处理</strong>：对原始数据进行清洗和预处理，将特征转换为模型可接受的格式。</li>
+<li><strong>模型训练</strong>：使用负采样技术处理数据不平衡问题，采用交叉熵损失函数训练模型。</li>
+<li><strong>知识蒸馏</strong>：使用精排模型的输出作为教师模型，对粗排模型进行知识蒸馏，提高粗排模型的性能。</li>
+</ul>
+<h4>三、实际应用中的注意事项</h4>
+<h5>1. 数据质量</h5>
+<p>确保数据的准确性和一致性至关重要。需要对用户行为数据进行清洗，去除噪声和无效数据，提高训练数据的质量。</p>
+<h5>2. 模型调优</h5>
+<p>在模型训练过程中，需要不断调整模型参数，以提高模型的泛化能力和预测精度。常用方法包括超参数调优和交叉验证。</p>
+<h5>3. 特征工程</h5>
+<p>特征选择和优化在模型性能提升中起着重要作用。通过特征重要性分析，识别并优化对模型效果贡献最大的特征。</p>
+<h4>四、总结</h4>
+<p>粗排点击率模型在搜索引擎和推荐系统中起到了承上启下的重要作用。通过合理的模型设计、数据处理和训练方法，可以显著提升系统的点击率和用户体验。在实际应用中，需要注意数据质量、模型调优和特征工程，以确保模型的最佳性能。</p>
+<h3>模型训练的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>模型训练是构建高性能搜索引擎和推荐系统的关键步骤。通过有效的训练方法，可以确保模型在实际应用中的表现优异，提升用户体验和系统性能。</p>
+<h4>二、模型训练的基本流程</h4>
+<h5>1. 数据准备</h5>
+<p>模型训练的首要步骤是数据准备，包括数据收集、清洗和处理：</p>
+<ul>
+<li><strong>数据收集</strong>：从用户行为日志中收集点击数据和交互数据。</li>
+<li><strong>数据清洗</strong>：去除噪声和无效数据，确保数据的准确性和一致性。</li>
+<li><strong>数据处理</strong>：将原始数据转换为模型可接受的格式，包括特征提取和特征工程。</li>
+</ul>
+<h5>2. 模型选择</h5>
+<p>根据任务需求选择适合的模型结构，常用的模型包括深度神经网络（DNN）、梯度提升决策树（GBDT）和双塔模型（Two-Tower Model）。</p>
+<ul>
+<li><strong>深度神经网络（DNN）</strong>：适用于处理大规模数据和复杂特征。</li>
+<li><strong>梯度提升决策树（GBDT）</strong>：适用于处理数值特征和离散特征。</li>
+<li><strong>双塔模型（Two-Tower Model）</strong>：适用于处理用户和文档的向量表征。</li>
+</ul>
+<h5>3. 模型训练</h5>
+<p>模型训练的步骤包括：</p>
+<ul>
+<li><strong>初始化参数</strong>：根据经验或随机方法初始化模型参数。</li>
+<li><strong>定义损失函数</strong>：常用的损失函数包括均方误差、交叉熵损失等。</li>
+<li><strong>优化算法</strong>：使用梯度下降、Adam等优化算法，最小化损失函数。</li>
+<li><strong>负采样</strong>：处理数据不平衡问题，减少负样本的数量，提高训练效率。</li>
+</ul>
+<h5>4. 模型评估与调优</h5>
+<p>模型训练完成后，需要对模型进行评估和调优，以确保其性能。</p>
+<ul>
+<li><strong>评估指标</strong>：常用的评估指标包括AUC、准确率、精确率、召回率和F1分数等。</li>
+<li><strong>交叉验证</strong>：使用交叉验证方法评估模型的泛化能力。</li>
+<li><strong>超参数调优</strong>：通过网格搜索和随机搜索等方法，优化模型的超参数。</li>
+</ul>
+<h4>三、实际应用中的注意事项</h4>
+<h5>1. 数据质量</h5>
+<p>确保数据的准确性和一致性是关键。在数据准备阶段，需要对数据进行充分的清洗和预处理，以提高模型训练效果。</p>
+<h5>2. 模型调优</h5>
+<p>在模型训练过程中，需要不断调整模型参数，以提高模型的泛化能力和预测精度。常用的方法包括交叉验证和超参数调优。</p>
+<h5>3. 特征选择与优化</h5>
+<p>特征选择和优化在模型性能提升中起着重要作用。通过特征重要性分析，可以识别出对模型贡献最大的特征，并进行针对性的优化。</p>
+<h4>四、总结</h4>
+<p>模型训练是构建高性能搜索引擎和推荐系统的关键步骤。通过合理的数据准备、模型选择和训练方法，可以显著提升系统的性能和用户体验。在实际应用中，需要注意数据质量、模型调优和特征选择与优化，以确保模型的最佳性能。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_3.5.4_模型训练
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.5_个性化与点击率预估
+Content: 03_3.5.4_模型训练
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

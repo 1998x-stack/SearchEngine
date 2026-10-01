@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.4.3 召回</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>02_3.4.3_召回</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.4_地域性
+Content: 02_3.4.3_召回
+</code></pre>
+<h3>召回的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>召回（Retrieval）是搜索引擎和推荐系统中的核心环节，负责从海量数据中选取与查询词或用户需求最相关的内容。在搜索引擎中，召回的效果直接决定了搜索结果的相关性和质量。在地域性相关的搜索中，召回特别关注用户的地理位置，以便提供更符合用户需求的本地化内容。</p>
+<h4>二、召回的基本流程</h4>
+<h5>1. 查询词处理</h5>
+<ul>
+<li><strong>查询词理解</strong>：首先对用户输入的查询词进行解析，理解其意图和需求。包括分词、词权重计算、查询词改写等步骤。</li>
+<li><strong>意图识别</strong>：识别查询词的意图强弱，并传递给召回模块。意图识别可以通过关键词匹配和语义分析等方法实现。例如，对于“附近的餐厅”，系统需要识别出“餐厅”这个意图，并判断其是否包含“附近”的地理意图。</li>
+</ul>
+<h5>2. 召回通道选择</h5>
+<ul>
+<li><strong>显式意图召回</strong>：对于显式地理意图（如“附近的餐厅”），直接调用对应的召回链路，根据地理位置进行过滤。例如，将查询词“餐厅”输入系统，检索出用户附近的餐厅。</li>
+<li><strong>隐式意图召回</strong>：对于隐式地理意图（如“餐厅”），需要调用多种召回链路，包括标准的文本召回和地理意图召回。系统需要根据用户的位置和意图强弱分配召回配额。</li>
+</ul>
+<h5>3. 多源数据融合</h5>
+<ul>
+<li><strong>文本召回</strong>：利用倒排索引等技术，从文档库中检索包含查询词的文档。文本召回主要解决查询词与文档内容的匹配问题。</li>
+<li><strong>向量召回</strong>：通过双塔模型等深度学习技术，将查询词和文档表示为向量，并计算其相似度。向量召回可以处理语义匹配问题，特别是在词面不匹配的情况下。</li>
+<li><strong>地理位置过滤</strong>：对于包含地理意图的查询词，按照地理位置进行过滤。例如，通过设置距离阈值，筛选出指定范围内的POI（Point of Interest）。</li>
+</ul>
+<h4>三、召回的应用</h4>
+<h5>1. 搜索引擎</h5>
+<p>在搜索引擎中，召回是提升搜索结果相关性的关键步骤。通过多种召回通道的结合，可以提高搜索结果的精度和覆盖率。例如，当用户输入“北京周边游”时，系统可以调用文本召回和地理位置召回，提供最相关的搜索结果。</p>
+<h5>2. 推荐系统</h5>
+<p>在推荐系统中，召回可以根据用户的地理位置和兴趣点数据，提供个性化的推荐。例如，根据用户访问过的POI，推荐相似或附近的POI。</p>
+<h5>3. 地理位置服务</h5>
+<p>在地理位置服务中，召回可以提升基于位置的搜索结果的相关性。例如，当用户搜索“附近的咖啡馆”时，通过召回和地理位置过滤，提供最相关的本地搜索结果。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 数据质量</h5>
+<p>确保召回数据的准确性和一致性是关键。需要对用户输入的查询词进行清洗，去除噪声和无效信息，以提高处理效果。</p>
+<h5>2. 模型调优</h5>
+<p>在召回过程中，需要不断调整模型参数，以提高模型的泛化能力和召回精度。常用的方法包括交叉验证、超参数调优等。</p>
+<h5>3. 地理位置过滤</h5>
+<p>在地理位置召回中，需要根据用户的实际需求设置合理的距离阈值。例如，在城市中心设置较小的距离阈值，在郊区设置较大的距离阈值，以确保召回结果的数量和质量。</p>
+<h4>五、总结</h4>
+<p>召回在搜索引擎和推荐系统中具有重要作用，通过合理的查询词处理、多源数据融合和地理位置过滤，可以显著提升搜索结果的相关性和用户体验。在实际应用中，需要注意数据质量、模型调优和地理位置过滤，以确保召回的效果。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 02_3.4.3_召回
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.4_地域性
+Content: 02_3.4.3_召回
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

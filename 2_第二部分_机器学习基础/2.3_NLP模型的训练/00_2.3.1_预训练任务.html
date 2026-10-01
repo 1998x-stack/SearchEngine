@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.3.1 预训练任务</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>00_2.3.1_预训练任务</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.3_NLP模型的训练
+Content: 00_2.3.1_预训练任务
+</code></pre>
+<h3>预训练任务的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>预训练任务是自然语言处理（NLP）模型训练的关键步骤之一，通过利用海量无标签数据进行自监督学习，为下游任务提供高质量的预训练模型。预训练任务的主要目标是让模型学习语言的基本结构和语义信息，从而在后续的特定任务中具有更好的表现。</p>
+<h4>二、预训练任务的类型</h4>
+<h5>1. Masked Language Model（MLM）</h5>
+<p>MLM 是 BERT 模型中的核心预训练任务，其目标是预测被遮挡的词。具体方法是随机遮挡输入句子中 15% 的词，并要求模型根据上下文预测这些被遮挡的词。其步骤如下：</p>
+<ul>
+<li>随机选择句子中的若干个词（通常是 15%）。</li>
+<li>将这些词替换为特殊标记 [MASK]。</li>
+<li>模型根据上下文预测被遮挡的词 。</li>
+</ul>
+<p>例如，句子“机器学习是人工智能的一个分支”可能被处理为“机器[MASK]是人工[MASK]的一个分支”，模型需要预测被遮挡的词“学习”和“智能”。</p>
+<h5>2. Next Sentence Prediction（NSP）</h5>
+<p>NSP 是 BERT 模型中的另一项预训练任务，目标是判断两句话是否是连续的。其步骤如下：</p>
+<ul>
+<li>将两句话拼接起来，分别标记为正样本和负样本。正样本是原文中连续的两句话，负样本是随机选择的两句话。</li>
+<li>模型需要判断两句话是否连续  。</li>
+</ul>
+<p>例如，句子对“[CLS]机器学习是人工智能的一个分支[SEP]它由数据驱动[SEP]”是正样本，而“[CLS]机器学习是人工智能的一个分支[SEP]天气晴朗[SEP]”是负样本。</p>
+<h5>3. Sentence Order Prediction（SOP）</h5>
+<p>SOP 是 ALBERT 模型提出的预训练任务，类似于 NSP，但目标是判断两句话的顺序是否被颠倒。其步骤如下：</p>
+<ul>
+<li>将两句话拼接起来，一种情况是按原顺序，另一种情况是将顺序颠倒。</li>
+<li>模型需要判断两句话的顺序是否正确 。</li>
+</ul>
+<p>例如，句子对“[CLS]机器学习是人工智能的一个分支[SEP]它由数据驱动[SEP]”是正样本，而“[CLS]它由数据驱动[SEP]机器学习是人工智能的一个分支[SEP]”是负样本。</p>
+<h4>三、预训练任务的好处</h4>
+<p>预训练的主要好处在于它可以利用海量的无标签数据进行训练，从而学习到丰富的语言表示，这对下游的各种任务（如文本分类、问答系统等）都有显著的提升。以下是预训练的具体好处：</p>
+<h5>1. 数据规模</h5>
+<p>数据规模是预训练的关键因素。大规模数据可以显著提高模型的性能。例如，在 100 亿条样本上训练 1 epoch 的效果优于在 10 亿条样本上训练 10 epoch，即使两者所需的算力相同  。</p>
+<h5>2. 数据质量</h5>
+<p>数据质量直接影响预训练的效果。预训练前需要对文档进行去重，并清洗数据中的无意义符号和表情  。</p>
+<h5>3. 数据选择</h5>
+<p>根据下游任务选择预训练数据可以显著提升效果。例如，如果下游任务是小红书的搜索相关性，那么在预训练中使用小红书的数据会有很大提升 。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 数据清洗</h5>
+<p>在进行预训练前，需要对数据进行彻底的清洗，包括去除无意义的符号和表情，并对文档进行去重  。</p>
+<h5>2. 特征选择</h5>
+<p>根据下游任务的需求，选择合适的特征进行预训练。例如，在搜索相关性任务中，可以结合词频、逆文档频率（TF-IDF）、词向量等特征  。</p>
+<h5>3. 模型调优</h5>
+<p>通过选择合适的超参数、使用正则化技术和集成方法，可以进一步提升模型的稳定性和准确性  。</p>
+<h4>五、总结</h4>
+<h2>预训练任务在自然语言处理模型的训练中起到了至关重要的作用。通过合理选择预训练任务和数据，可以显著提升模型在下游任务中的表现。无论是 Masked Language Model、Next Sentence Prediction 还是 Sentence Order Prediction，都为模型提供了丰富的语言知识和语义表示，从而在后续的任务中表现出色   。</h2>
+<h3>预训练任务类型的极致详细比较表</h3>
+<table>
+<thead>
+<tr>
+<th>比较维度</th>
+<th>Masked Language Model（MLM）</th>
+<th>Next Sentence Prediction（NSP）</th>
+<th>Sentence Order Prediction（SOP）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>定义</strong></td>
+<td>预测被随机遮挡的词</td>
+<td>判断两句话是否连续</td>
+<td>判断两句话的顺序是否被颠倒</td>
+</tr>
+<tr>
+<td><strong>目标</strong></td>
+<td>让模型根据上下文预测被遮挡的词</td>
+<td>让模型判断两句话是否连续</td>
+<td>让模型判断两句话的顺序是否正确</td>
+</tr>
+<tr>
+<td><strong>常用模型</strong></td>
+<td>BERT、RoBERTa</td>
+<td>BERT</td>
+<td>ALBERT</td>
+</tr>
+<tr>
+<td><strong>具体步骤</strong></td>
+<td>- 随机选择句子中的若干个词（通常是 15%）&lt;br&gt; - 将这些词替换为特殊标记 [MASK]&lt;br&gt; - 模型根据上下文预测被遮挡的词</td>
+<td>- 将两句话拼接起来&lt;br&gt; - 标记为正样本或负样本&lt;br&gt; - 模型判断两句话是否连续</td>
+<td>- 将两句话拼接起来&lt;br&gt; - 一种情况是按原顺序&lt;br&gt; - 一种情况是将顺序颠倒&lt;br&gt; - 模型判断顺序是否正确</td>
+</tr>
+<tr>
+<td><strong>输入示例</strong></td>
+<td>原句子：“机器学习是人工智能的一个分支”&lt;br&gt; 处理后：“机器[MASK]是人工[MASK]的一个分支”</td>
+<td>正样本：“[CLS]机器学习是人工智能的一个分支[SEP]它由数据驱动[SEP]”&lt;br&gt; 负样本：“[CLS]机器学习是人工智能的一个分支[SEP]天气晴朗[SEP]”</td>
+<td>正样本：“[CLS]机器学习是人工智能的一个分支[SEP]它由数据驱动[SEP]”&lt;br&gt; 负样本：“[CLS]它由数据驱动[SEP]机器学习是人工智能的一个分支[SEP]”</td>
+</tr>
+<tr>
+<td><strong>优点</strong></td>
+<td>- 能有效学习词汇和上下文之间的关系&lt;br&gt; - 提供丰富的词向量表示</td>
+<td>- 提供句子级别的语义理解&lt;br&gt; - 对上下文有更好的理解</td>
+<td>- 提供句子顺序级别的语义理解&lt;br&gt; - 对上下文有更好的理解</td>
+</tr>
+<tr>
+<td><strong>缺点</strong></td>
+<td>- 仅关注词汇级别的预测&lt;br&gt; - 无法提供句子级别的语义关系</td>
+<td>- 需要额外的句子对数据&lt;br&gt; - 训练复杂度较高</td>
+<td>- 需要额外的句子对数据&lt;br&gt; - 训练复杂度较高</td>
+</tr>
+<tr>
+<td><strong>应用场景</strong></td>
+<td>- 语言模型的预训练&lt;br&gt; - 词向量表示的学习</td>
+<td>- 文本分类&lt;br&gt; - 文本匹配&lt;br&gt; - 自然语言推理</td>
+<td>- 文本分类&lt;br&gt; - 文本匹配&lt;br&gt; - 自然语言推理</td>
+</tr>
+<tr>
+<td><strong>对下游任务的影响</strong></td>
+<td>- 提升任务中对单词和上下文理解的效果</td>
+<td>- 提升任务中对句子连续性和上下文理解的效果</td>
+<td>- 提升任务中对句子顺序和上下文理解的效果</td>
+</tr>
+<tr>
+<td><strong>实现复杂度</strong></td>
+<td>低</td>
+<td>中</td>
+<td>中</td>
+</tr>
+<tr>
+<td><strong>数据需求</strong></td>
+<td>大量无标签文本数据</td>
+<td>大量句子对数据</td>
+<td>大量句子对数据</td>
+</tr>
+<tr>
+<td><strong>计算资源需求</strong></td>
+<td>中等</td>
+<td>较高</td>
+<td>较高</td>
+</tr>
+<tr>
+<td><strong>代表性论文</strong></td>
+<td>BERT（2018）</td>
+<td>BERT（2018）</td>
+<td>ALBERT（2019）</td>
+</tr>
+</tbody>
+</table>
+
+    <h3>Python 文件</h3>
+    <pre><code># 00_2.3.1_预训练任务
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.3_NLP模型的训练
+Content: 00_2.3.1_预训练任务
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

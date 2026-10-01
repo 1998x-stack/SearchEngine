@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>2.3.4 蒸馏</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_2.3.4_蒸馏</h1>
+<pre><code>Lecture: 2_第二部分_机器学习基础/2.3_NLP模型的训练
+Content: 03_2.3.4_蒸馏
+</code></pre>
+<h3>蒸馏的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>知识蒸馏（Knowledge Distillation）是一种模型压缩技术，通过将复杂的大模型的知识“蒸馏”到较小的模型中，使得小模型在性能和准确度上尽可能接近大模型。蒸馏在工业界广泛应用于搜索引擎和推荐系统中，以减少计算资源和提升推理速度。</p>
+<h4>二、蒸馏的基本流程</h4>
+<h5>1. 大模型训练</h5>
+<ul>
+<li><strong>预训练</strong>：在大规模语料上进行预训练，通常使用 MLM（Masked Language Model）和 SOP（Sentence Order Prediction）等任务来训练模型。</li>
+<li><strong>后预训练</strong>：利用海量无标签数据进行后预训练，进一步提升模型的性能。</li>
+<li><strong>微调</strong>：使用高质量的人工标注数据对模型进行微调，使其更好地适应具体的下游任务。</li>
+</ul>
+<h5>2. 数据准备</h5>
+<ul>
+<li><strong>生成训练数据</strong>：通过大模型对海量的 (q, d) 二元组进行打分，生成用于蒸馏的小模型训练数据。这些数据量通常在 10 亿对以上。</li>
+<li><strong>数据标注</strong>：大模型起到标注员的作用，通过大模型对 (q, d) 进行打分，生成训练样本 (q, d, r_{q,d})。</li>
+</ul>
+<h5>3. 小模型预训练</h5>
+<ul>
+<li><strong>小模型预热</strong>：在进行蒸馏之前，先对小模型进行预训练、后预训练和微调，使其具备一定的基础能力。</li>
+</ul>
+<h5>4. 蒸馏训练</h5>
+<ul>
+<li><strong>定义损失函数</strong>：使用大模型的输出作为目标，通过 pointwise 损失函数（如均方误差或交叉熵）和 pairwise 损失函数进行训练。</li>
+<li><strong>模型训练</strong>：通过梯度下降优化小模型的参数，使其输出尽可能拟合大模型的输出。</li>
+</ul>
+<h4>三、蒸馏的优点</h4>
+<h5>1. 计算资源节约</h5>
+<p>蒸馏后的小模型在推理过程中所需的计算资源大幅减少，适合在资源受限的环境中部署。例如，线上推理最多只能用 4 到 12 层 BERT 模型，而不能用 24 层或 48 层的大模型。</p>
+<h5>2. 推理速度提升</h5>
+<p>小模型在推理速度上明显优于大模型，能够更快地响应用户请求，提高用户体验。这在实时性要求高的应用场景中尤为重要。</p>
+<h5>3. 精度保持</h5>
+<p>通过蒸馏，小模型可以保留大模型的大部分知识，在性能和精度上接近大模型。这使得小模型在实际应用中仍然具备较高的准确度和效果。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 数据量</h5>
+<p>蒸馏过程需要海量的 (q, d) 二元组数据，数据量越大，蒸馏效果越好。工业界经验表明，蒸馏用的数据量最好在 10 亿对以上。</p>
+<h5>2. 大模型选择</h5>
+<p>大模型的参数量越大，其在测试集上的指标（如 AUC 和正逆序比）越高，且蒸馏出的小模型的指标也越高。因此，选择性能优异的大模型进行蒸馏是关键。</p>
+<h5>3. 小模型预热</h5>
+<p>在蒸馏前，对小模型进行预热，即先做预训练、后预训练和微调。预热后的小模型具有更好的基础能力，更利于后续的蒸馏训练。</p>
+<h5>4. 损失函数选择</h5>
+<p>在蒸馏过程中，损失函数的选择至关重要。常用的损失函数包括 pointwise 损失函数（如均方误差或交叉熵）和 pairwise 损失函数。根据任务需求选择合适的损失函数，有助于提升蒸馏效果。</p>
+<h4>五、总结</h4>
+<p>蒸馏是一种有效的模型压缩技术，通过将大模型的知识转移到小模型中，实现计算资源的节约和推理速度的提升。在实际应用中，通过合理的数据准备、大模型选择、小模型预热和损失函数选择，可以构建出性能优异的小模型，满足各类应用需求。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_2.3.4_蒸馏
+
+"""
+Lecture: 2_第二部分_机器学习基础/2.3_NLP模型的训练
+Content: 03_2.3.4_蒸馏
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.1.1 相关性的定义与分档</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>00_3.1.1_相关性的定义与分档</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.1_相关性
+Content: 00_3.1.1_相关性的定义与分档
+</code></pre>
+<h2>相关性的定义与分档</h2>
+<h3>一、简介</h3>
+<p>相关性是搜索引擎评估中最重要的指标，它衡量的是查询词 $ q $ 与文档 $ d $ 之间的匹配程度。如果文档 $ d $ 能满足查询词 $ q $ 的需求，则 $ (q, d) $ 是相关的。相关性是影响用户体验的关键因素，其重要性远超内容质量、时效性、地域性、个性化等因素。</p>
+<h3>二、相关性的基本原则</h3>
+<p>相关性评价的基本原则包括以下几点：</p>
+<ol>
+<li><strong>需求匹配</strong>：相关性是指文档 $ d $ 能否满足查询词 $ q $ 的需求或回答查询词提出的问题，而非字面上的匹配。即使文档 $ d $ 中不包含查询词中的任何字和词， $ q $ 与 $ d $ 也可以具有高相关性。</li>
+<li><strong>独立性</strong>：相关性评价仅考虑需求匹配，不涉及内容质量、时效性、地域性、个性化等因素。</li>
+</ol>
+<h3>三、相关性档位</h3>
+<p>相关性档位通常分为 4 档或 5 档，常见的是 4 档划分方式，将“相关”细分为“高”和“中”，将“不相关”细分为“低”和“无”。</p>
+<h4>1. 相关与不相关的判定</h4>
+<p>给定查询词 $ q $ 和文档 $ d $，首先判断 $ (q, d) $ 是否相关。在此基础上进一步细分档位。</p>
+<h4>2. 高相关与中相关</h4>
+<ul>
+<li><strong>高相关</strong>：文档内容的 50% 以上满足查询词的需求。例如，查询词为“泰坦尼克号”，如果文档是演员莱昂纳多的访谈，谈及其几部代表作，其中重点谈了《泰坦尼克号》电影，并且篇幅超过 50%，则判定为高相关。</li>
+<li><strong>中相关</strong>：文档内容部分满足查询词的需求，但不足 50%。例如，查询词为“小米手机测评”，如果文档是安卓手机测评，包含了几款小米手机的测评，但篇幅未超过 50%，则判定为中相关。</li>
+</ul>
+<h4>3. 低相关与无相关</h4>
+<ul>
+<li><strong>低相关</strong>：文档不能满足查询词的需求，但具有参考价值。例如，查询词为“初二下册物理考点”，如果文档是“初三中考物理考点”，虽然不能完全满足需求，但仍具有一定参考价值，判定为低相关。</li>
+<li><strong>无相关</strong>：文档完全不能满足查询词的需求且没有参考价值。例如，查询词为“面霜”，但文档是“口红测评”，判定为无相关。</li>
+</ul>
+<h3>四、相关性评价方法</h3>
+<p>相关性评价方法包括文本匹配和语义匹配两类。</p>
+<h4>1. 文本匹配</h4>
+<p>文本匹配包括 TF-IDF 和 BM25 等方法，它们通过计算查询词和文档中词语的匹配程度来衡量相关性。这些方法虽然简单，但在处理复杂查询时效果有限。</p>
+<h4>2. 语义匹配</h4>
+<p>语义匹配使用深度学习模型，如 BERT 模型，通过理解查询词和文档的语义关系来衡量相关性。BERT 模型的准确性远超传统的文本匹配方法，已成为工业界的主流选择。</p>
+<h3>五、详细表格</h3>
+<table>
+<thead>
+<tr>
+<th>指标类别</th>
+<th>指标名称</th>
+<th>英文名称</th>
+<th>具体定义</th>
+<th>作用及重要性</th>
+<th>测量周期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相关性指标</td>
+<td>高相关</td>
+<td>High Relevance</td>
+<td>文档内容的 50% 以上满足查询词需求。</td>
+<td>提供用户最满意的结果，提高用户体验。</td>
+<td>每次评估</td>
+</tr>
+<tr>
+<td>相关性指标</td>
+<td>中相关</td>
+<td>Medium Relevance</td>
+<td>文档内容部分满足查询词需求，但不足 50%。</td>
+<td>提供一定参考价值的结果。</td>
+<td>每次评估</td>
+</tr>
+<tr>
+<td>相关性指标</td>
+<td>低相关</td>
+<td>Low Relevance</td>
+<td>文档不能满足查询词需求，但具有一定参考价值。</td>
+<td>提供有限参考价值，不能完全满足用户需求。</td>
+<td>每次评估</td>
+</tr>
+<tr>
+<td>相关性指标</td>
+<td>无相关</td>
+<td>No Relevance</td>
+<td>文档完全不能满足查询词需求且没有参考价值。</td>
+<td>过滤掉无用信息，优化用户体验。</td>
+<td>每次评估</td>
+</tr>
+<tr>
+<td>文本匹配</td>
+<td>TF-IDF</td>
+<td>Term Frequency-Inverse Document Frequency</td>
+<td>计算查询词和文档中词语的匹配程度。</td>
+<td>传统的文本匹配方法，适用于简单查询。</td>
+<td>每次查询</td>
+</tr>
+<tr>
+<td>文本匹配</td>
+<td>BM25</td>
+<td>Best Matching 25</td>
+<td>基于 TF-IDF 的改进算法，考虑了词语的频率和文档长度等因素。</td>
+<td>提供更准确的文本匹配结果。</td>
+<td>每次查询</td>
+</tr>
+<tr>
+<td>语义匹配</td>
+<td>BERT模型</td>
+<td>Bidirectional Encoder Representations from Transformers</td>
+<td>使用深度学习模型理解查询词和文档的语义关系。</td>
+<td>提供最准确的语义匹配结果，适用于复杂查询。</td>
+<td>每次查询</td>
+</tr>
+</tbody>
+</table>
+<h3>六、总结</h3>
+<p>相关性是搜索引擎最重要的评价指标，它直接影响用户体验。通过合理的相关性定义与分档，可以更准确地评估和提升搜索引擎的性能。文本匹配和语义匹配各有优势，在实际应用中需要根据具体场景选择合适的方法。不断优化相关性评价方法，是提升搜索引擎用户满意度的关键。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 00_3.1.1_相关性的定义与分档
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.1_相关性
+Content: 00_3.1.1_相关性的定义与分档
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

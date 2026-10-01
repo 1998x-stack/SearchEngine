@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.2.1 用户规模与留存指标</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>00_1.2.1_用户规模与留存指标</h1>
+<pre><code>Lecture: 1_第一部分_搜索引擎基础/1.2_搜索引擎的评价指标
+Content: 00_1.2.1_用户规模与留存指标
+</code></pre>
+<h2>分析用户规模与留存指标</h2>
+<h3>一、简介</h3>
+<p>用户规模与留存指标是评估搜索引擎性能的重要指标，这些指标直接反映了用户的使用情况和粘性，是衡量搜索引擎成功与否的重要标准。这些指标通常被称为北极星指标，因为它们直接与公司的业务发展挂钩。</p>
+<h3>二、用户规模</h3>
+<p>用户规模通常通过日活跃用户数（Daily Active User，DAU）、周活跃用户数（Weekly Active User，WAU）和月活跃用户数（Monthly Active User，MAU）来衡量。</p>
+<h4>1. 日活跃用户数（DAU）</h4>
+<p>DAU 是指每日使用 APP 的用户数量。无论用户当天使用 APP 的次数多少，他对 DAU 的贡献都为 1。DAU 能直观地反映出用户的日常活跃度，是衡量短期用户参与度的重要指标。</p>
+<h4>2. 周活跃用户数（WAU）</h4>
+<p>WAU 是指一周内至少使用一次 APP 的用户数量。与 DAU 相似，WAU 可以衡量用户在一周内的活跃情况，是评估中期用户参与度的指标。</p>
+<h4>3. 月活跃用户数（MAU）</h4>
+<p>MAU 是指一个月内至少使用一次 APP 的用户数量。MAU 能反映出用户的长期活跃度，是评估长期用户参与度的重要指标。</p>
+<h3>三、用户留存</h3>
+<p>用户留存率是衡量一个 APP 留住用户能力的指标，通常分为次 n 日内留存率（次 n 留）和第 n 日留存率（第 n 留）。</p>
+<h4>1. 次 n 日内留存率（次 n 留）</h4>
+<p>次 n 留是指今天使用 APP 的用户中，有多大比例的用户在未来 n 天内再次使用 APP。次 n 留可以反映出用户对 APP 的持续使用意愿。</p>
+<h4>2. 第 n 日留存率（第 n 留）</h4>
+<p>第 n 留是指今天使用 APP 的用户中，有多大比例的用户在第 n 天再次使用 APP。与次 n 留相比，第 n 留更关注特定时间点的用户活跃情况。</p>
+<h3>四、搜索和推荐的区别</h3>
+<p>对于拥有搜索和推荐功能的 APP，如百度、小红书和抖音，需要分别计算搜索日活用户数（SDAU）和推荐日活用户数（FDAU）。这两个指标能更具体地反映搜索和推荐功能的使用情况。</p>
+<h4>1. 搜索渗透率</h4>
+<p>搜索渗透率是指 SDAU 与 DAU 的比值，反映了有多少比例的 APP 用户使用搜索功能。搜索渗透率越高，说明搜索功能的使用情况越好。</p>
+<h4>2. 推荐渗透率</h4>
+<p>推荐渗透率是指 FDAU 与 DAU 的比值，反映了有多少比例的 APP 用户使用推荐功能。推荐渗透率越高，说明推荐功能的使用情况越好。</p>
+<h3>五、用户留存的挑战</h3>
+<p>留存指标具有一定的滞后性，需要较长的时间观测。策略如果有效，留存指标会缓慢增长，需要观测较长的周期。此外，留存指标的显著性较难达到，需要较大的流量才能观测到显著的差异。</p>
+<h3>六、总结</h3>
+<p>用户规模和留存指标是搜索引擎评估的核心指标，直接反映用户的使用情况和粘性。通过提高这些指标，可以显著提升用户满意度和业务收益。在实际操作中，需要不断优化和监控这些指标，以确保搜索引擎的性能和用户体验不断提升。</p>
+<h3>深入分析</h3>
+<h4>用户规模的细节</h4>
+<ul>
+<li><strong>DAU、WAU 和 MAU 的定义</strong>：这些指标不仅反映了用户的活跃度，还可以用于预测用户增长趋势。例如，DAU 的日波动可以揭示用户的使用习惯和高峰时段。</li>
+<li><strong>搜索和推荐的分离</strong>：在搜索和推荐同时存在的情况下，分离统计 SDAU 和 FDAU 有助于更精确地了解用户对不同功能的使用情况，从而进行有针对性的优化。</li>
+</ul>
+<h4>留存指标的复杂性</h4>
+<ul>
+<li><strong>次 n 留和第 n 留的区别</strong>：次 n 留反映的是用户在 n 天内的任何一次使用情况，而第 n 留则专注于特定时间点。这两者的结合可以提供更加全面的用户活跃度评估。</li>
+<li><strong>留存指标的滞后性</strong>：留存指标通常具有滞后效应，需要通过长时间的数据积累和分析来发现趋势和问题。</li>
+</ul>
+<h4>指标优化的策略</h4>
+<ul>
+<li><strong>提高 DAU 和 MAU</strong>：通过增加应用的互动性和功能性，吸引更多用户频繁使用。例如，优化搜索算法，提高搜索结果的准确性和相关性，提升用户体验。</li>
+<li><strong>改善用户留存</strong>：通过个性化推荐、及时推送通知和提供高质量内容，增加用户对应用的依赖性和使用频率。</li>
+</ul>
+<hr>
+<table>
+<thead>
+<tr>
+<th>指标类别</th>
+<th>指标名称</th>
+<th>英文名称</th>
+<th>具体定义</th>
+<th>作用及重要性</th>
+<th>测量周期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户规模</td>
+<td>日活跃用户数</td>
+<td>Daily Active User (DAU)</td>
+<td>每日使用 APP 的用户数量。无论用户当天使用 APP 的次数多少，他对 DAU 的贡献都为 1。</td>
+<td>反映日常活跃度，衡量短期用户参与度。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>用户规模</td>
+<td>周活跃用户数</td>
+<td>Weekly Active User (WAU)</td>
+<td>一周内至少使用一次 APP 的用户数量。</td>
+<td>反映中期活跃度，衡量用户在一周内的活跃情况。</td>
+<td>每周</td>
+</tr>
+<tr>
+<td>用户规模</td>
+<td>月活跃用户数</td>
+<td>Monthly Active User (MAU)</td>
+<td>一个月内至少使用一次 APP 的用户数量。</td>
+<td>反映长期活跃度，衡量用户在一个月内的活跃情况。</td>
+<td>每月</td>
+</tr>
+<tr>
+<td>用户留存</td>
+<td>次 n 日内留存率</td>
+<td>Retention Rate within n Days</td>
+<td>今天使用 APP 的用户中，有多大比例的用户在未来 n 天内再次使用 APP。</td>
+<td>反映用户对 APP 的持续使用意愿。</td>
+<td>n 日后</td>
+</tr>
+<tr>
+<td>用户留存</td>
+<td>第 n 日留存率</td>
+<td>Retention Rate on Day n</td>
+<td>今天使用 APP 的用户中，有多大比例的用户在第 n 天再次使用 APP。</td>
+<td>关注特定时间点的用户活跃情况。</td>
+<td>第 n 日</td>
+</tr>
+<tr>
+<td>搜索与推荐</td>
+<td>搜索日活用户数</td>
+<td>Search Daily Active User (SDAU)</td>
+<td>每日使用搜索功能的用户数量。</td>
+<td>具体反映搜索功能的使用情况。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>搜索与推荐</td>
+<td>推荐日活用户数</td>
+<td>Feed Daily Active User (FDAU)</td>
+<td>每日使用推荐功能的用户数量。</td>
+<td>具体反映推荐功能的使用情况。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>搜索渗透率</td>
+<td>搜索渗透率</td>
+<td>Search Penetration Rate</td>
+<td>SDAU 与 DAU 的比值。</td>
+<td>反映有多少比例的 APP 用户使用搜索功能。</td>
+<td>每日</td>
+</tr>
+<tr>
+<td>推荐渗透率</td>
+<td>推荐渗透率</td>
+<td>Feed Penetration Rate</td>
+<td>FDAU 与 DAU 的比值。</td>
+<td>反映有多少比例的 APP 用户使用推荐功能。</td>
+<td>每日</td>
+</tr>
+</tbody>
+</table>
+
+    <h3>Python 文件</h3>
+    <pre><code># 00_1.2.1_用户规模与留存指标
+
+"""
+Lecture: 1_第一部分_搜索引擎基础/1.2_搜索引擎的评价指标
+Content: 00_1.2.1_用户规模与留存指标
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

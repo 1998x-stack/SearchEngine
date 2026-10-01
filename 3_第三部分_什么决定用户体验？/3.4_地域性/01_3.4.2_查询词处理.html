@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>3.4.2 查询词处理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>01_3.4.2_查询词处理</h1>
+<pre><code>Lecture: 3_第三部分_什么决定用户体验？/3.4_地域性
+Content: 01_3.4.2_查询词处理
+</code></pre>
+<h3>查询词处理的极致详细分析</h3>
+<h4>一、任务综述</h4>
+<p>查询词处理（Query Processing, QP）是搜索引擎链路中的第一环，用于从用户输入的查询词中提取出有效的信息，以便为后续的召回和排序提供基础。查询词处理涉及多个步骤，包括分词、词权重计算、查询词改写等，这些步骤共同作用，以提升搜索结果的相关性和用户体验。</p>
+<h4>二、查询词处理的基本流程</h4>
+<h5>1. 分词</h5>
+<ul>
+<li><strong>定义</strong>：分词是将整条查询词切分成多个词或词组，以便进行后续处理。</li>
+<li><strong>方法</strong>：常用的方法包括基于词典的分词、统计分词和基于深度学习的分词。</li>
+<li><strong>应用</strong>：分词的主要用途是文本召回，通过分别检索包含各个分词的文档，对得到的文档集合取交集，得到同时包含这些词的文档。</li>
+</ul>
+<h5>2. 词权重计算</h5>
+<ul>
+<li><strong>定义</strong>：词权重是计算分词结果中每个词的重要性，用于决定在召回过程中是否可以丢弃某些词。</li>
+<li><strong>方法</strong>：常用的方法包括TF-IDF和基于注意力机制的方法。</li>
+<li><strong>应用</strong>：词权重主要用于召回中的丢词操作，以增加召回的文档数量。例如，对于长查询词，可以丢弃权重较低的词，以确保召回足够多的相关文档。</li>
+</ul>
+<h5>3. 查询词改写</h5>
+<ul>
+<li><strong>定义</strong>：查询词改写是将用户输入的查询词转换为其他表达方式，以便召回更多相关文档。</li>
+<li><strong>方法</strong>：改写的方法包括同义词替换、上下位词替换、基于相关性和意图的改写等。</li>
+<li><strong>应用</strong>：改写的目的是解决语义鸿沟问题和召回量不足的问题。通过改写，可以更好地匹配相关文档，提高搜索结果的覆盖率和相关性。</li>
+</ul>
+<h4>三、查询词处理的应用</h4>
+<h5>1. 搜索引擎</h5>
+<p>在搜索引擎中，查询词处理是提升搜索结果相关性的重要步骤。通过分词、词权重计算和查询词改写，可以提高搜索结果的精度和用户满意度。例如，当用户输入“冬季卫衣推荐”时，通过分词和改写，可以检索到更多相关的文档。</p>
+<h5>2. 推荐系统</h5>
+<p>在推荐系统中，查询词处理可以帮助提升推荐结果的准确性和个性化。例如，通过对用户查询词进行处理，可以更好地理解用户的兴趣和需求，从而提供更加精准的推荐。</p>
+<h5>3. 地理位置服务</h5>
+<p>在地理位置服务中，查询词处理可以帮助提升基于位置的搜索结果的相关性。例如，当用户搜索“附近的火锅店”时，通过查询词处理，可以结合用户的地理位置，提供最相关的本地搜索结果。</p>
+<h4>四、实际应用中的注意事项</h4>
+<h5>1. 数据质量</h5>
+<p>确保数据的准确性和一致性是查询词处理的关键。需要对用户输入的查询词进行清洗，去除噪声和无效信息，以提高处理效果。</p>
+<h5>2. 模型调优</h5>
+<p>在查询词处理过程中，需要不断调整模型参数，以提高模型的泛化能力和处理精度。常用的方法包括交叉验证、超参数调优等。</p>
+<h5>3. 语义理解</h5>
+<p>在进行查询词改写时，需要考虑查询词的语义，以确保改写后的查询词能够正确反映用户的意图。避免简单的同义词替换，确保改写结果的高相关性。</p>
+<h4>五、总结</h4>
+<p>查询词处理在搜索引擎和推荐系统中具有重要作用，通过合理的分词、词权重计算和查询词改写，可以显著提升搜索结果的相关性和用户体验。实际应用中，需要注意数据质量、模型调优和语义理解，以确保查询词处理的效果。</p>
+
+    <h3>Python 文件</h3>
+    <pre><code># 01_3.4.2_查询词处理
+
+"""
+Lecture: 3_第三部分_什么决定用户体验？/3.4_地域性
+Content: 01_3.4.2_查询词处理
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  

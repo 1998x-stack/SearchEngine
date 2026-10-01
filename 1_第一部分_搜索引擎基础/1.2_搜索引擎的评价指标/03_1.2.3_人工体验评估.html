@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <title>1.2.3 人工体验评估</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap">
+  <link rel="stylesheet" href="../../markdown.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../../markdown.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>03_1.2.3_人工体验评估</h1>
+<pre><code>Lecture: 1_第一部分_搜索引擎基础/1.2_搜索引擎的评价指标
+Content: 03_1.2.3_人工体验评估
+</code></pre>
+<h2>人工体验评估</h2>
+<h3>一、简介</h3>
+<p>人工体验评估是在搜索引擎优化过程中，除了依靠点击率、交互率等量化指标外，使用人工方式对搜索结果进行主观评价的一种方法。通过人工评估，可以更全面地衡量搜索结果的相关性、时效性、内容质量等用户体验的核心因素。</p>
+<h3>二、人工评估的利弊</h3>
+<h4>1. 优点</h4>
+<ul>
+<li><strong>全面性</strong>：人工评估可以全面地衡量搜索结果的多个维度，如相关性、时效性、内容质量等。</li>
+<li><strong>精确性</strong>：通过专业人员的主观判断，可以捕捉到量化指标难以反映的细节和用户感受。</li>
+<li><strong>方向性</strong>：人工评估结果可以为算法团队提供明确的优化方向，识别出具体的bad case，指导后续的算法改进。</li>
+</ul>
+<h4>2. 缺点</h4>
+<ul>
+<li><strong>主观性</strong>：评估结果依赖于评估人员的专业素质和判断，可能存在一定的主观偏差。</li>
+<li><strong>成本高</strong>：需要大量的人工参与，评估团队的建设和维护成本较高。</li>
+<li><strong>效率低</strong>：评估速度较慢，通常需要一两周时间，影响算法迭代的效率。</li>
+</ul>
+<h3>三、评估方法</h3>
+<h4>1. Side by Side (SBS)评估</h4>
+<p>通过设置实验组和对照组，对同一批查询词进行搜索，比较两组搜索结果的优劣。具体步骤包括：</p>
+<ul>
+<li><strong>查询词抽样</strong>：从曝光日志中随机抽取一定数量的查询词，覆盖头、中、尾部查询词。</li>
+<li><strong>固定用户画像和场景</strong>：确保实验组和对照组在相同的用户画像和场景下进行搜索。</li>
+<li><strong>结果对比</strong>：对比实验组和对照组的搜索结果页，评价其相关性、时效性和内容质量等。</li>
+</ul>
+<h4>2. 月度评估</h4>
+<p>每月从曝光日志中抽取数千次搜索结果，人工评估其相关性、时效性、内容质量等，并计算DCG（Discounted Cumulative Gain）分数。月度评估可以长期监控用户体验的变化趋势。</p>
+<h3>四、DCG评估指标</h3>
+<p>DCG是衡量搜索结果质量的标准之一，计算方法如下：
+$$ \text{DCG@k} = \sum_{i=1}^{k} \frac{\text{score}(u, q, d_i)}{\log_2(i+1)} $$
+其中，$ \text{score}(u, q, d_i) $ 为人工评估的分数，表示查询词 $ q $ 在用户 $ u $ 下，对文档 $ d_i $ 的满意度。</p>
+<h3>五、实践中的案例分析</h3>
+<p>在实践中，百度通过人工体验评估对搜索结果进行优化。以下是一个典型案例：</p>
+<ul>
+<li><strong>问题发现</strong>：通过SBS评估，发现某策略虽然提升了点击率，但降低了相关性。</li>
+<li><strong>策略调整</strong>：根据评估结果，调整策略，提升搜索结果的相关性。</li>
+<li><strong>效果验证</strong>：通过后续的人工评估和月度评估，验证策略调整后的效果，确保用户体验的持续提升。</li>
+</ul>
+<h3>六、总结</h3>
+<p>人工体验评估是搜索引擎优化中的重要环节，能够有效弥补量化指标的不足，提供更全面的用户体验评估。然而，其高成本和低效率也对评估团队的专业素质和建设提出了更高的要求。通过不断优化评估方法和提高评估效率，可以更好地指导搜索引擎的算法优化，提升用户满意度和业务收益。</p>
+<hr>
+<h3>表格：人工体验评估的详细内容</h3>
+<table>
+<thead>
+<tr>
+<th>指标类别</th>
+<th>评估方法</th>
+<th>具体定义</th>
+<th>优点</th>
+<th>缺点</th>
+<th>测量周期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>人工评估</td>
+<td>SBS评估</td>
+<td>对比实验组和对照组的搜索结果页，评价相关性、时效性、内容质量等。</td>
+<td>全面性高、能捕捉细节和用户感受。</td>
+<td>主观性强、成本高、效率低。</td>
+<td>每次策略变更前</td>
+</tr>
+<tr>
+<td>人工评估</td>
+<td>月度评估</td>
+<td>每月抽取数千次搜索结果，人工评估其相关性、时效性、内容质量等，并计算DCG分数。</td>
+<td>长期监控用户体验变化，提供趋势分析。</td>
+<td>评估速度较慢，影响算法迭代效率。</td>
+<td>每月</td>
+</tr>
+<tr>
+<td>DCG指标</td>
+<td>DCG@k</td>
+<td>衡量搜索结果质量的标准，计算公式为$$ \text{DCG@k} = \sum_{i=1}^{k} \frac{\text{score}(u, q, d_i)}{\log_2(i+1)} $$。</td>
+<td>反映文档在搜索结果页中的排名权重，注重排名靠前文档的满意度。</td>
+<td>需人工评分，数据量大时计算复杂。</td>
+<td>每次评估</td>
+</tr>
+</tbody>
+</table>
+<h3>详细分析</h3>
+<ol>
+<li><strong>全面性</strong>：人工评估可以全面衡量搜索结果的多个维度，包括但不限于相关性、时效性、内容质量、用户画像的匹配度等。这些维度是机器评估难以全面覆盖的，特别是在内容质量和用户体验的细节上，人工评估的优势明显。</li>
+<li><strong>主观性和专业性</strong>：人工评估的主观性虽然是其不足，但通过建立专业的评估团队，并制定严格的评估标准，可以在一定程度上减少主观偏差，提升评估结果的可靠性。</li>
+<li><strong>成本和效率</strong>：人工评估需要投入大量的人力和时间，特别是在评估频率较高、策略变动较多的情况下，评估团队的建设和维护成本高昂。因此，在实际应用中，需要权衡评估频率和评估团队的规模，寻找成本与效率的最佳平衡点。</li>
+<li><strong>评估方法的改进</strong>：在实际操作中，可以结合自动化工具和算法，辅助人工评估，提高评估效率。例如，使用机器学习模型预筛选出可能存在问题的搜索结果，再由人工进行精细评估，从而减少人工工作量，提高评估效率。</li>
+</ol>
+<p>通过对人工体验评估的详细分析，可以更好地理解其在搜索引擎优化中的重要性和实际应用中的挑战，进而制定更加科学合理的评估策略，提升用户满意度和业务效果。</p>
+<hr>
+
+    <h3>Python 文件</h3>
+    <pre><code># 03_1.2.3_人工体验评估
+
+"""
+Lecture: 1_第一部分_搜索引擎基础/1.2_搜索引擎的评价指标
+Content: 03_1.2.3_人工体验评估
+"""
+
+</code></pre>
+  </div>
+</body>
+</html>
+  
