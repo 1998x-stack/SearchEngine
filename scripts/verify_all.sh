@@ -10,8 +10,8 @@ if [[ ! -f "$catalog_file" ]]; then
   exit 2
 fi
 
-expected_list=$(mktemp)
-actual_list=$(mktemp)
+expected_list=$(mktemp "${TMPDIR:-/tmp}/searchengine-expected.XXXXXX")
+actual_list=$(mktemp "${TMPDIR:-/tmp}/searchengine-actual.XXXXXX")
 trap 'rm -f "$expected_list" "$actual_list"' EXIT
 
 if ! sed -nE 's/^\|[[:space:]]*[0-9]+[[:space:]]*\|[[:space:]]*`(\.\/[^`]+\.py)`[[:space:]]*\|.*/\1/p' \
